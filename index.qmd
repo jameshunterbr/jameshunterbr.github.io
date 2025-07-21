@@ -1,5 +1,19 @@
 ---
-title: "James Hunter's Personal and Professional Website"
+title: "Methods, Virology & More"
+subtitle: "James Hunter's Personal and Professional Website"
+image: media/headshot.jpeg
+toc: false
+about: 
+  template: jolla
+  image-shape: round
+  image-width: 17em
+  links:
+    - text: LinkedIn
+      href: https://www.linkedin.com/in/linkedin.com/in/james-hunter-964169/
+    - text: GitHub
+      href: https://github.com/jameshunterbr
+    - text: Email
+      href: mailto:jameshunterbr@gmail.com
 ---
 
 Welcome! On this site, I will post a blog as well as files related to my personal interests, my work as a virologist, and thoughts about the quantitative methods applied to medical science. 
