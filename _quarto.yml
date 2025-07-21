@@ -9,7 +9,7 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
-      - href: /Users/jameshunter/Documents/Resumes/resume_may_25_en.pdf
+      - href: resume_may_25_en.pdf
         text: CV
         target: _blank
   page-footer: 
