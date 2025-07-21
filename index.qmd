@@ -18,7 +18,7 @@ about:
 
 Welcome! On this site, I will post a blog as well as files related to my personal interests, my work as a virologist, and thoughts about the quantitative methods applied to medical science. 
 
-Over the fifty + years I've been working with quantitative methods, I've seen some very interesting applications, especially now that I work as a virologist at the Retrovirology Laboratory of UNIFESP (Federal University of São Paulo). Many of these applications relate to the learning how to sequence the genome (the entire range of DNA) of organisms and viruses, or anything coded by DNA. 
+Over the fifty + years I've been working with quantitative methods, I've seen some very interesting applications, especially now that I work as a virologist at the Retrovirology Laboratory of UNIFESP (Federal University of São Paulo). Many of these applications relate to the sequencing the genome (the entire range of DNA) of organisms and viruses, or anything coded by DNA. 
 
 I also run across a lot of abuse of simple statistics in papers, talks, and opinions in all media. I will try to use some of this space to set some of these misapprehensions back on the right path.
 
