@@ -5,10 +5,17 @@ project:
 website:
   title: "Methods, Virology & More"
   navbar:
-    left:
+    right:
       - href: index.qmd
         text: Home
       - about.qmd
+      - href: /Users/jameshunter/Documents/Resumes/resume_may_25_en.pdf
+        text: CV
+        target: _blank
+  page-footer: 
+    text: "Copyright 2025, James R. Hunter"
+
+
 
 format:
   html:
