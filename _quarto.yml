@@ -13,7 +13,7 @@ website:
         text: CV
         target: _blank
   page-footer: 
-    text: "Copyright 2025, James R. Hunter"
+    left: "Copyright 2025, James R. Hunter"
 
 
 
