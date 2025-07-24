@@ -8,12 +8,17 @@ about:
   image-shape: round
   image-width: 17em
   links:
-    - text: LinkedIn
-      href: https://www.linkedin.com/in/linkedin.com/in/james-hunter-964169/
-    - text: GitHub
+    - icon: linkedin
+      href: https://www.linkedin.com/in/james-hunter-964169/
+      target: _blank
+    - icon: github
       href: https://github.com/jameshunterbr
-    - text: Email
+      target: _blank
+    - icon: envelope # email
       href: mailto:jameshunterbr@gmail.com
+    - text: BlueSky
+      href: https://bsky.app/profile/jimhunterbr.bsky.social
+      target: _blank
 ---
 
 Welcome! On this site, I will post a blog as well as files related to my personal interests, my work as a virologist, and thoughts about the quantitative methods applied to medical science. 
