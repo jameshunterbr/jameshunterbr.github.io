@@ -24,6 +24,7 @@ format:
     theme: 
       - lumen
       - styles.scss 
+    mainfont: Nunito
     toc: false
     
 

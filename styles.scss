@@ -1,5 +1,11 @@
 /*-- scss:defaults --*/
 
+// Import Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Hebrew:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Noto+Serif+Hebrew:wght@100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+// Fonts
+
+
 // Colors
 $dark-green: #858E79;
 $light-green: #D1D9CE;
@@ -16,3 +22,10 @@ $body-bg: $light-green; // page background
 // $body-color: $gray; // page text 
 $footer-bg: $cream; // footer 
 $link-color: $orange; // hyperlinks 
+
+/*-- scss:rules --*/
+
+.navbar-brand img {
+    max-height: 40px;
+    width: auto; }
+
