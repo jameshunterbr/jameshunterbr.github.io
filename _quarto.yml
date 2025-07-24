@@ -5,6 +5,7 @@ project:
 website:
   title: "Methods, Virology & More"
   navbar:
+    logo: media/jrh logo.png
     right:
       - href: index.qmd
         text: Home
