@@ -2,7 +2,7 @@
 title: "First Post to the New Blog"
 description: "This post will introduce me and briefly discuss the main topics I want to treat here."
 author:
-    - name: James R. Hunter
+    - name: James Hunter
       url: https://jameshunterbr.github.io/
       orcid: 0000-0001-9524-0629
       affiliation: Laboratório de Retrovirologia, UNIFESP & CorpoRx, Inc.
@@ -10,7 +10,7 @@ date: 2025-07-25
 categories: [Quarto, R, Virology]
 citation: 
     url: https://jameshunterbr.github.io/posts/25-07-24_first_post/
-draft: false
+draft: true
 ---
 
 It has been a while since I last blogged, but now there are a number of professional and personal subjects that interest me and I hope that will interest you. 

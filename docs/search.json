@@ -18,6 +18,13 @@
     "href": "posts.html",
     "title": "Blog Posts",
     "section": "",
-    "text": "The posts will go on this page\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "The posts will go on this page\n\n\n\n\n\n\n\n\n\n\n\n\nFirst Post to the New Blog\n\n\n\nQuarto\n\nR\n\nVirology\n\n\n\nThis post will introduce me and briefly discuss the main topics I want to treat here.\n\n\n\nJames R. Hunter\n\n\nJul 25, 2025\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/25-07-24_first_post/index.html",
+    "href": "posts/25-07-24_first_post/index.html",
+    "title": "First Post to the New Blog",
+    "section": "",
+    "text": "It has been a while since I last blogged, but now there are a number of professional and personal subjects that interest me and I hope that will interest you.\n\n\n\nCitationBibTeX citation:@online{r._hunter2025,\n  author = {R. Hunter, James},\n  title = {First {Post} to the {New} {Blog}},\n  date = {2025-07-25},\n  url = {https://jameshunterbr.github.io/posts/25-07-24_first_post/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nR. Hunter, James. 2025. “First Post to the New Blog.” July\n25, 2025. https://jameshunterbr.github.io/posts/25-07-24_first_post/."
   }
 ]
