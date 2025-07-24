@@ -21,9 +21,10 @@ website:
 
 format:
   html:
-    theme: lumen 
-    css: styles.css
-    toc: true
+    theme: 
+      - lumen
+      - styles.scss 
+    toc: false
     
 
 
