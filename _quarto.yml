@@ -16,6 +16,10 @@ website:
         target: _blank
   page-footer: 
     left: "Copyright 2025, James R. Hunter"
+  comments: 
+    hypothesis:
+      theme: clean
+      openSidebar: false
 
 
 
