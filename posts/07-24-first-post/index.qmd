@@ -10,7 +10,7 @@ date: 2025-07-25
 categories: [Quarto, R, Virology]
 citation: 
     url: https://jameshunterbr.github.io/posts/25-07-24_first_post/
-draft: true
+draft: false
 ---
 
 It has been a while since I last blogged, but now there are a number of professional and personal subjects that interest me and I hope that will interest you. 
