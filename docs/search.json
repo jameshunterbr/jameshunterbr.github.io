@@ -32,6 +32,13 @@
     "href": "posts/07-24-first-post/index.html",
     "title": "First Post to the New Blog",
     "section": "",
-    "text": "It has been a while since I last blogged, but now there are a number of professional and personal subjects that interest me and I hope that will interest you.\n\n\n\nCitationBibTeX citation:@online{hunter2025,\n  author = {Hunter, James},\n  title = {First {Post} to the {New} {Blog}},\n  date = {2025-07-25},\n  url = {https://jameshunterbr.github.io/posts/25-07-24_first_post/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nHunter, James. 2025. “First Post to the New Blog.” July 25,\n2025. https://jameshunterbr.github.io/posts/25-07-24_first_post/."
+    "text": "It has been a while since I last blogged. I have moved from being an urban planner and real estate consultant to applying my quantitative skills to virology and medical science. I have managed to achieve my long-held goal of completing a doctorate and I have been conducting research on HIV and other viral diseases as well as teaching biomedical and other students at the Federal University of São Paulo.\nMy focus remains quantitative methods, especially biostatistics, bioinformatics, and the computer programming necessary to answer fundamental–and sometimes trivial–questions related to disease. I teach annually a short course on using the computer language R to conduct medical research.\nI’ve also had the privilege of consulting for a number of biotech companies in Brazil, the United States and Israel on research and drug development. Again, my focus is on the quantitative aspects of the research, although my decade of study of viruses, how they function and how to combat the diseases they cause form a large part of what I contribute to these research efforts."
+  },
+  {
+    "objectID": "posts/07-24-first-post/index.html#what-this-blog-will-be-about",
+    "href": "posts/07-24-first-post/index.html#what-this-blog-will-be-about",
+    "title": "First Post to the New Blog",
+    "section": "What This Blog Will Be About",
+    "text": "What This Blog Will Be About\nI would like to address three principal areas in this blog."
   }
 ]
