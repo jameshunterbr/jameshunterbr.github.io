@@ -24,5 +24,15 @@ The experimental protocol of the clinical trial tells us what variables will be 
 [^1]: The examples here will generally be generated in the R statistical language as that is what I generally use. However, this post will contain Python code as well.
 
 ```{r eval = FALSE}
-age <- runif(n = 100, min = 18, max = 65) # choose 100 cases between 18 and 65
+age <- runif(n = 100, min = 18, max = 65) # choose 100 random values between 18 and 65
 ```
+
+The question I would like to address in this post is how we go about choosing values to use in the variables we create for our synthetic dataset. These values should mimic as closely as possible the real values we are likely to encounter in the clinical trial. In only very few cases do we lack precedents or models that we can use for reasonable values for these variables. There are prior studies or trials that have reported values for the variables. They may not have the same objective or deal with exactly the same population as the real sample for the trial will, but they need to be "close enough" to make the analyses based on them reasonable approximations for the real data.
+
+## Fitting a Distribution for a Numeric Variable
+
+There are many stages to preparing a synthetic dataset. In this post, I will limit myself to how we choose the distribution to use to set the values for a numeric variable. For example, in our clinical trial, one of the variables we collect on our participants is their age in years. Our trial will be limited to adults between 18 and 65 years – a common range for clinical trials. We also choose I will need to choose ages for 70 individuals (our "n") within that range.
+
+## Note on the Illustration at the Head of the Post
+
+Thi diagram at the beginning of this post is a small piece of an extraordinary illustration of the relationship among a large number of statistical distributions that is the main element of an article in **The American Statistician** from 2008 by Leemis and McQueston, *Univariate Distribution Relationships*. ([@leemis2008]) that the first author has enshrined in a web page that explains in detail each of the distributions and how they relate one to the other (<https://www.math.wm.edu/~leemis/chart/UDR/UDR.html>). This is a very valuable resource for anyone who is dealing with this subject.
