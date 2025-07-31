@@ -33,6 +33,10 @@ The question I would like to address in this post is how we go about choosing va
 
 There are many stages to preparing a synthetic dataset. In this post, I will limit myself to how we choose the distribution to use to set the values for a numeric variable. For example, in our clinical trial, one of the variables we collect on our participants is their age in years. Our trial will be limited to adults between 18 and 65 years – a common range for clinical trials. We also choose I will need to choose ages for 70 individuals (our "n") within that range.
 
+## Our Precedent for the Age Variable
+
+From 2017 - 2020, our lab conducted a smaller trial (30 individuals) of a similar strategy for HIV cure.
+
 ## Note on the Illustration at the Head of the Post
 
 Thi diagram at the beginning of this post is a small piece of an extraordinary illustration of the relationship among a large number of statistical distributions that is the main element of an article in **The American Statistician** from 2008 by Leemis and McQueston, *Univariate Distribution Relationships*. ([@leemis2008]) that the first author has enshrined in a web page that explains in detail each of the distributions and how they relate one to the other (<https://www.math.wm.edu/~leemis/chart/UDR/UDR.html>). This is a very valuable resource for anyone who is dealing with this subject.
