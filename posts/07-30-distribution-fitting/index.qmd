@@ -1,0 +1,19 @@
+---
+title: "Fitting Distributions"
+description: ""
+author:
+    - name: James Hunter
+      url: https://jameshunterbr.github.io/
+      orcid: 0000-0001-9524-0629
+      affiliation: Laboratório de Retrovirologia, UNIFESP & CorpoRx, Inc.
+date: 2025-07-30
+categories: [Quarto, R, Biostatistics]
+citation: 
+    url: https://jameshunterbr.github.io/posts/25-07-24_first_post/
+image: leemis_distributions.png
+draft: false
+---
+
+I have been working for the past month on developing a synthetic dataset to support the clinical trial our laboratory is starting in our search for a cure for HIV. Clearly, this is an ambitious goal. Our previous clinical trials and experiments, as well as the work of many other labs around the world have given us confidence that our approach can bear fruit. What is a synthetic dataset? Why am I interested in such a thing?
+
+A synthetic dataset is a set of hypothetical cases that
