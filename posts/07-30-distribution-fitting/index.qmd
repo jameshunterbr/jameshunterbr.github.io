@@ -50,18 +50,49 @@ pacman::p_load(tidyverse, ggsci)
 cure1 <- readRDS('table1_cure1.rds')
 age_cure1 <- cure1$age_years
 age_cure1
-cure1 %>%
+cure1 <- cure1 |> 
+  mutate(age_cure_grp = factor(case_when(
+    age_years <= 30 ~ "20 - 30",
+    age_years > 30 & age_years <= 40 ~ "31 - 40",
+    age_years > 40 & age_years <= 50 ~ "41 - 50",
+    age_years > 50 ~ "> 50"
+  ), levels = c("20 - 30", "31 - 40", "41 - 50", "> 50")))
+cure1 |>
+  group_by(age_cure_grp) |> 
+  summarise(total = n()) |> 
+  select(age_cure_grp, total) |> 
+  gt::gt() |> 
+  gt::cols_label(
+    age_cure_grp = "Age Group",
+    total = "Total"
+  )
+cure1  |> 
   ggplot(aes(x = age_years)) + 
   geom_histogram(aes(y = after_stat(density)), bins = 10, fill = "#155F83") +
-geom_density(color = "#FFA319") + 
-theme_bw()
+  geom_density(color = "#FFA319") + 
+  theme_bw()
 
 ```
 
 ## Distribution of the `age_years` Variable
 
-It appears difficult to
+The density curve of the age data appears monomodal, with just one peak. The histogram, however, suggests that there is a second mode at the elderly end of the age spectrum. Picking a distribution that is an adequate model for projecting new cohorts of PLHIV who are likely to be enrolled in the new study is not obvious.
+
+### Intuitive Distribution Selection
+
+The dominant mode around 30 years old suggests visually that the distribution may be normal in character. That is our intuitive first guess about the type of data in the age variable. Testing normality is relatively straightforward. We can use either the Shapiro-Wilk test or the Anderson-Darling tests of normality. In both cases, if the p-value of the test is less than a value we set, by custom 0.10 for normality tests, we consider that the normal distribution does not describe the data. Let's try those with our data.
+
+```{r}
+
+# Shapiro-Wilk
+shapiro.test(age_cure1)
+
+# Anderson-Darling
+nortest::ad.test(age_cure1)
+```
+
+In both these tests, the age data does not appear to be normally, even for the more liberal Anderson-Darling test
 
 ## Note on the Illustration at the Head of the Post
 
-Thi diagram at the beginning of this post is a small piece of an extraordinary illustration of the relationship among a large number of statistical distributions that is the main element of an article in **The American Statistician** from 2008 by Leemis and McQueston, *Univariate Distribution Relationships*. ([@leemis2008]) that the first author has enshrined in a web page that explains in detail each of the distributions and how they relate one to the other (<https://www.math.wm.edu/~leemis/chart/UDR/UDR.html>). This is a very valuable resource for anyone who is dealing with this subject.
+The diagram at the beginning of this post is a small piece of an extraordinary illustration of the relationship among a large number of statistical distributions that is the main element of an article in **The American Statistician** from 2008 by Leemis and McQueston, *Univariate Distribution Relationships*. ([@leemis2008]) that the first author has enshrined in a web page that explains in detail each of the distributions and how they relate one to the other (<https://www.math.wm.edu/~leemis/chart/UDR/UDR.html>). This is a very valuable resource for anyone who is dealing with this subject.
