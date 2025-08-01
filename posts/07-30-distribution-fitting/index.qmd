@@ -10,12 +10,12 @@ date: 2025-08-01
 categories: [Quarto, R, Biostatistics]
 citation: 
     url: https://jameshunterbr.github.io/posts/07-30-distribution-fitting/
-image: leemis_distributions.png
+image: leemis_extract.png
 draft: false
 bibliography: references.bib
 ---
 
-![](leemis_distributions.png){fig-align="center"}
+![](lemmis_extract.png){fig-align="center"}
 
 I have been working for the past month on developing a synthetic dataset to support the clinical trial our laboratory is starting in our search for a cure for HIV. Clearly, this is an ambitious goal. Our previous clinical trials and experiments, as well as the work of many other labs around the world have given us confidence that our approach can bear fruit. What is a synthetic dataset? Why am I interested in such a thing?
 
