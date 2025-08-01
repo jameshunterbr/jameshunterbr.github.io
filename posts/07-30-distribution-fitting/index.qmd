@@ -43,7 +43,7 @@ From 2017 - 2020, our lab conducted a smaller trial (30 individuals) of a simila
 
 As with any clinical trial, we need to assure that the members of the cohort reflect the population we are trying to measure, people living with HIV ("PLHIV") in Brazil. For age, that means comparing the profile of the ages of participants to other analyses of this group. However, I will leave that question open here and focus on the distribution of ages to use as a model for age in the synthetic cohort for the new trial.
 
-Here is a table and histogram of the ages of the participants in the first trial.
+Here is a list and histogram of the ages of the participants in the first trial.
 
 ```{r cure1, echo = FALSE}
 pacman::p_load(tidyverse, ggsci)
@@ -57,6 +57,10 @@ geom_density(color = "#FFA319") +
 theme_bw()
 
 ```
+
+## Distribution of the `age_years` Variable
+
+It appears difficult to
 
 ## Note on the Illustration at the Head of the Post
 
