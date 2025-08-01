@@ -91,7 +91,9 @@ shapiro.test(age_cure1)
 nortest::ad.test(age_cure1)
 ```
 
-In both these tests, the age data does not appear to be normally, even for the more liberal Anderson-Darling test
+In both these tests, the age data does not appear to be normally, even for the more liberal Anderson-Darling test.
+
+Now, what? We can continue to test continuous distributions and hope we find one that fits the pattern of our data. That's not very efficient and depends on our
 
 ## Note on the Illustration at the Head of the Post
 
