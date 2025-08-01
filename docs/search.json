@@ -1,0 +1,86 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Methods, Virology & More",
+    "section": "",
+    "text": "Welcome! On this site, I will post a blog as well as files related to my personal interests, my work as a virologist, and thoughts about the quantitative methods applied to medical science.\nOver the fifty + years I’ve been working with quantitative methods, I’ve seen some very interesting applications, especially now that I work as a virologist at the Retrovirology Laboratory of UNIFESP (Federal University of São Paulo). Many of these applications relate to the sequencing the genome (the entire range of DNA) of organisms and viruses, or anything coded by DNA.\nI also run across a lot of abuse of simple statistics in papers, talks, and opinions in all media. I will try to use some of this space to set some of these misapprehensions back on the right path.\nThis site is still in an experimental stage and will hopefully take on a more professional appearance in the coming weeks.\nAs an important footnote, I am an American who has moved definitively to Brazil. I won’t be able to be silent over some issues of cultural, political and all other types of differences between these two cultures. There will also be some posts in Portuguese, and others that I want both Americans and Brazilians to read that I will post in both languages."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "posts.html",
+    "href": "posts.html",
+    "title": "Blog Posts",
+    "section": "",
+    "text": "Fitting Distributions\n\n\n\nQuarto\n\nR\n\nBiostatistics\n\n\n\nIn which I explore various software techniques in R and Python for fitting statistical distributions to data\n\n\n\n\n\nAug 1, 2025\n\n\nJames Hunter\n\n\n\n\n\n\n\n\n\n\n\n\nFirst Post to the New Blog\n\n\n\nQuarto\n\nR\n\nVirology\n\n\n\nThis post will introduce me and briefly discuss the main topics I want to treat here.\n\n\n\n\n\nJul 25, 2025\n\n\nJames Hunter\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/25-07-24_first_post/index.html",
+    "href": "posts/25-07-24_first_post/index.html",
+    "title": "First Post to the New Blog",
+    "section": "",
+    "text": "It has been a while since I last blogged, but now there are a number of professional and personal subjects that interest me and I hope that will interest you.\n\n\n\nCitationBibTeX citation:@online{r._hunter2025,\n  author = {R. Hunter, James},\n  title = {First {Post} to the {New} {Blog}},\n  date = {2025-07-25},\n  url = {https://jameshunterbr.github.io/posts/25-07-24_first_post/},\n  langid = {en}\n}\nFor attribution, please cite this work as:\nR. Hunter, James. 2025. “First Post to the New Blog.” July\n25, 2025. https://jameshunterbr.github.io/posts/25-07-24_first_post/."
+  },
+  {
+    "objectID": "posts/07-24-first-post/index.html",
+    "href": "posts/07-24-first-post/index.html",
+    "title": "First Post to the New Blog",
+    "section": "",
+    "text": "It has been a while since I last blogged. I have moved from being an urban planner and real estate consultant to applying my quantitative skills to virology and medical science. I have managed to achieve my long-held goal of completing a doctorate and I have been conducting research on HIV and other viral diseases as well as teaching biomedical and other students at the Federal University of São Paulo.\nMy focus remains quantitative methods, especially biostatistics, bioinformatics, and the computer programming necessary to answer fundamental–and sometimes trivial–questions related to disease. I teach annually a short course on using the computer language R to conduct medical research.\nI’ve also had the privilege of consulting for a number of biotech companies in Brazil, the United States and Israel on research and drug development. Again, my focus is on the quantitative aspects of the research, although my decade of study of viruses, how they function and how to combat the diseases they cause form a large part of what I contribute to these research efforts."
+  },
+  {
+    "objectID": "posts/07-24-first-post/index.html#what-this-blog-will-be-about",
+    "href": "posts/07-24-first-post/index.html#what-this-blog-will-be-about",
+    "title": "First Post to the New Blog",
+    "section": "What This Blog Will Be About",
+    "text": "What This Blog Will Be About\nI would like to address three principal areas in this blog.\n\nWhat I am thinking about and working on related to the medical research projects that our laboratory is dealing with. There are many topics that come up that are not really germane to the academic publications that scientists use as their primary means of communications, but may be of interest to individuals and groups outside our team.\nIssues in biostatistics, probability and other subjects related to quantitative methods. These will include guides to understanding specific issues in statistical decision-making, use and abuse of statistical models, methods and tests, and general comments on mathematics. I will always try to keep the explanations I offer here understandable without requiring a Ph.D. just to read the blog.\nRelated to the quantitative techniques themselves, the computer languages and software we use to study biological data create many issues that are worthy of discussion. Although I have been a person who uses the R language to conduct analyses for the last fifteen years, I will also explore the use of other languages such as Python and Julia with which I am familiar. However, I promise there will be no posts on the R vs Python theme. I will also address from time to time the use of large, canned statistical analysis programs such as SPSS, Stata, Prism, etc."
+  },
+  {
+    "objectID": "posts/07-24-first-post/index.html#other-interests",
+    "href": "posts/07-24-first-post/index.html#other-interests",
+    "title": "First Post to the New Blog",
+    "section": "Other Interests",
+    "text": "Other Interests\nWhile these three areas will be my primary focus, I am also interested in world politics, especially in the Middle East, in my home country (USA) and in Latin America. If I feel that I have something original to contribute on these topics, I will. I also am deeply interested in music, literature and art, so these areas will not totally escape my attention here.\nI will continue to develop the structure of the blog, which is being written and structured in the Quarto markdown system via the new IDE called Positron (link to Positron IDE) and I will soon add a comments capability – as soon as I figure out how.\nAny topics you would like me to address, please let me know. The blog has a number of links you can use to reach me."
+  },
+  {
+    "objectID": "posts/07-30-distribution-fitting/index.html",
+    "href": "posts/07-30-distribution-fitting/index.html",
+    "title": "Fitting Distributions",
+    "section": "",
+    "text": "I have been working for the past month on developing a synthetic dataset to support the clinical trial our laboratory is starting in our search for a cure for HIV. Clearly, this is an ambitious goal. Our previous clinical trials and experiments, as well as the work of many other labs around the world have given us confidence that our approach can bear fruit. What is a synthetic dataset? Why am I interested in such a thing?\nA synthetic dataset is a set of hypothetical cases that mirror as closely as possible in silico data that we are likely to collect from the real participants in our clinical trial. Synthetic datasets are useful when the process of collecting data is slow (as in our case) or the sample size is very restricted (as in the case of many animal model experiments where both ethics and cost limit how many animals can be sacrificed for an experimental result). In our case, eventually, we will replace our analyses conducted on the synthetic dataset with the results from the participants themselves.\nThe experimental protocol of the clinical trial tells us what variables will be collected. The synthetic dataset will use the same variables. Obviously, one can’t simply make the data up although you see frequently in texts, blog posts or statistical package manuals examples of simple random data predicated on a set of normally or uniformly distributed data, such as in the following example.1\nage &lt;- runif(n = 100, min = 18, max = 65) # choose 100 random values between 18 and 65\nThe question I would like to address in this post is how we go about choosing values to use in the variables we create for our synthetic dataset. These values should mimic as closely as possible the real values we are likely to encounter in the clinical trial. In only very few cases do we lack precedents or models that we can use for reasonable values for these variables. There are prior studies or trials that have reported values for the variables. They may not have the same objective or deal with exactly the same population as the real sample for the trial will, but they need to be “close enough” to make the analyses based on them reasonable approximations for the real data."
+  },
+  {
+    "objectID": "posts/07-30-distribution-fitting/index.html#fitting-a-distribution-for-a-numeric-variable",
+    "href": "posts/07-30-distribution-fitting/index.html#fitting-a-distribution-for-a-numeric-variable",
+    "title": "Fitting Distributions",
+    "section": "Fitting a Distribution for a Numeric Variable",
+    "text": "Fitting a Distribution for a Numeric Variable\nThere are many stages to preparing a synthetic dataset. In this post, I will limit myself to how we choose the distribution to use to set the values for a numeric variable. For example, in our clinical trial, one of the variables we collect on our participants is their age in years. Our trial will be limited to adults between 18 and 65 years – a common range for clinical trials. We also choose I will need to choose ages for 70 individuals (our “n”) within that range."
+  },
+  {
+    "objectID": "posts/07-30-distribution-fitting/index.html#our-precedent-for-the-age-variable",
+    "href": "posts/07-30-distribution-fitting/index.html#our-precedent-for-the-age-variable",
+    "title": "Fitting Distributions",
+    "section": "Our Precedent for the Age Variable",
+    "text": "Our Precedent for the Age Variable\nFrom 2017 - 2020, our lab conducted a smaller trial (30 individuals) of a similar strategy for HIV cure.2 Among the demographic variables about the participants in that trial, we recorded the age in years at the beginning of the trial.\nAs with any clinical trial, we need to assure that the members of the cohort reflect the population we are trying to measure, people living with HIV (“PLHIV”) in Brazil. For age, that means comparing the profile of the ages of participants to other analyses of this group. However, I will leave that question open here and focus on the distribution of ages to use as a model for age in the synthetic cohort for the new trial.\nHere is a table and histogram of the ages of the participants in the first trial.\n\n\n [1] 30 49 34 54 34 29 61 40 36 45 40 28 34 52 35 41 32 48 35 28 32 55 27 56 44\n[26] 38 25 45 60 61"
+  },
+  {
+    "objectID": "posts/07-30-distribution-fitting/index.html#note-on-the-illustration-at-the-head-of-the-post",
+    "href": "posts/07-30-distribution-fitting/index.html#note-on-the-illustration-at-the-head-of-the-post",
+    "title": "Fitting Distributions",
+    "section": "Note on the Illustration at the Head of the Post",
+    "text": "Note on the Illustration at the Head of the Post\nThi diagram at the beginning of this post is a small piece of an extraordinary illustration of the relationship among a large number of statistical distributions that is the main element of an article in The American Statistician from 2008 by Leemis and McQueston, Univariate Distribution Relationships. ((Leemis and McQueston 2008)) that the first author has enshrined in a web page that explains in detail each of the distributions and how they relate one to the other (https://www.math.wm.edu/~leemis/chart/UDR/UDR.html). This is a very valuable resource for anyone who is dealing with this subject."
+  },
+  {
+    "objectID": "posts/07-30-distribution-fitting/index.html#footnotes",
+    "href": "posts/07-30-distribution-fitting/index.html#footnotes",
+    "title": "Fitting Distributions",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nThe examples here will generally be generated in the R statistical language as that is what I generally use. However, this post will contain Python code as well.↩︎\nA definitive summary of this trial is currently in the process of being published.↩︎"
+  }
+]
