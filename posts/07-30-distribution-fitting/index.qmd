@@ -46,13 +46,16 @@ As with any clinical trial, we need to assure that the members of the cohort ref
 Here is a table and histogram of the ages of the participants in the first trial.
 
 ```{r cure1, echo = FALSE}
-pacman::p_load(tidyverse)
+pacman::p_load(tidyverse, ggsci)
 cure1 <- readRDS('table1_cure1.rds')
 age_cure1 <- cure1$age_years
 age_cure1
 cure1 %>%
   ggplot(aes(x = age_years)) + 
-  geom_histogram(bins = 10) 
+  geom_histogram(aes(y = after_stat(density)), bins = 10, fill = "#155F83") +
+geom_density(color = "#FFA319") + 
+theme_bw()
+
 ```
 
 ## Note on the Illustration at the Head of the Post
