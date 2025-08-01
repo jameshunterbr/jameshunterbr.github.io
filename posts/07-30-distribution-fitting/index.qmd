@@ -15,6 +15,8 @@ draft: false
 bibliography: references.bib
 ---
 
+![](leemis_distributions.png){fig-align="center"}
+
 I have been working for the past month on developing a synthetic dataset to support the clinical trial our laboratory is starting in our search for a cure for HIV. Clearly, this is an ambitious goal. Our previous clinical trials and experiments, as well as the work of many other labs around the world have given us confidence that our approach can bear fruit. What is a synthetic dataset? Why am I interested in such a thing?
 
 A synthetic dataset is a set of hypothetical cases that mirror as closely as possible *in silico* data that we are likely to collect from the real participants in our clinical trial. Synthetic datasets are useful when the process of collecting data is slow (as in our case) or the sample size is very restricted (as in the case of many animal model experiments where both ethics and cost limit how many animals can be sacrificed for an experimental result). In our case, eventually, we will replace our analyses conducted on the synthetic dataset with the results from the participants themselves.
