@@ -18,7 +18,7 @@
     "href": "posts.html",
     "title": "Blog Posts",
     "section": "",
-    "text": "First Post to the New Blog\n\n\n\nQuarto\n\nR\n\nVirology\n\n\n\nThis post will introduce me and briefly discuss the main topics I want to treat here.\n\n\n\n\n\nJul 25, 2025\n\n\nJames Hunter\n\n\n\n\n\nNo matching items"
+    "text": "Fitting Distributions\n\n\n\nQuarto\n\nR\n\nBiostatistics\n\n\n\n\n\n\n\n\n\nJul 30, 2025\n\n\nJames Hunter\n\n\n\n\n\n\n\n\n\n\n\n\nFirst Post to the New Blog\n\n\n\nQuarto\n\nR\n\nVirology\n\n\n\nThis post will introduce me and briefly discuss the main topics I want to treat here.\n\n\n\n\n\nJul 25, 2025\n\n\nJames Hunter\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/25-07-24_first_post/index.html",
@@ -47,5 +47,40 @@
     "title": "First Post to the New Blog",
     "section": "Other Interests",
     "text": "Other Interests\nWhile these three areas will be my primary focus, I am also interested in world politics, especially in the Middle East, in my home country (USA) and in Latin America. If I feel that I have something original to contribute on these topics, I will. I also am deeply interested in music, literature and art, so these areas will not totally escape my attention here.\nI will continue to develop the structure of the blog, which is being written and structured in the Quarto markdown system via the new IDE called Positron (link to Positron IDE) and I will soon add a comments capability – as soon as I figure out how.\nAny topics you would like me to address, please let me know. The blog has a number of links you can use to reach me."
+  },
+  {
+    "objectID": "posts/07-30-distribution-fitting/index.html",
+    "href": "posts/07-30-distribution-fitting/index.html",
+    "title": "Fitting Distributions",
+    "section": "",
+    "text": "I have been working for the past month on developing a synthetic dataset to support the clinical trial our laboratory is starting in our search for a cure for HIV. Clearly, this is an ambitious goal. Our previous clinical trials and experiments, as well as the work of many other labs around the world have given us confidence that our approach can bear fruit. What is a synthetic dataset? Why am I interested in such a thing?\nA synthetic dataset is a set of hypothetical cases that mirror as closely as possible in silico data that we are likely to collect from the real participants in our clinical trial. Synthetic datasets are useful when the process of collecting data is slow (as in our case) or the sample size is very restricted (as in the case of many animal model experiments where both ethics and cost limit how many animals can be sacrificed for an experimental result). In our case, eventually, we will replace our analyses conducted on the synthetic dataset with the results from the participants themselves.\nThe experimental protocol of the clinical trial tells us what variables will be collected. The synthetic dataset will use the same variables. Obviously, one can’t simply make the data up although you see frequently in texts, blog posts or statistical package manuals examples of simple random data predicated on a set of normally or uniformly distributed data, such as in the following example.1\nage &lt;- runif(n = 100, min = 18, max = 65) # choose 100 random values between 18 and 65\nThe question I would like to address in this post is how we go about choosing values to use in the variables we create for our synthetic dataset. These values should mimic as closely as possible the real values we are likely to encounter in the clinical trial. In only very few cases do we lack precedents or models that we can use for reasonable values for these variables. There are prior studies or trials that have reported values for the variables. They may not have the same objective or deal with exactly the same population as the real sample for the trial will, but they need to be “close enough” to make the analyses based on them reasonable approximations for the real data."
+  },
+  {
+    "objectID": "posts/07-30-distribution-fitting/index.html#fitting-a-distribution-for-a-numeric-variable",
+    "href": "posts/07-30-distribution-fitting/index.html#fitting-a-distribution-for-a-numeric-variable",
+    "title": "Fitting Distributions",
+    "section": "Fitting a Distribution for a Numeric Variable",
+    "text": "Fitting a Distribution for a Numeric Variable\nThere are many stages to preparing a synthetic dataset. In this post, I will limit myself to how we choose the distribution to use to set the values for a numeric variable. For example, in our clinical trial, one of the variables we collect on our participants is their age in years. Our trial will be limited to adults between 18 and 65 years – a common range for clinical trials. We also choose I will need to choose ages for 70 individuals (our “n”) within that range."
+  },
+  {
+    "objectID": "posts/07-30-distribution-fitting/index.html#our-precedent-for-the-age-variable",
+    "href": "posts/07-30-distribution-fitting/index.html#our-precedent-for-the-age-variable",
+    "title": "Fitting Distributions",
+    "section": "Our Precedent for the Age Variable",
+    "text": "Our Precedent for the Age Variable\nFrom 2017 - 2020, our lab conducted a smaller trial (30 individuals) of a similar strategy for HIV cure."
+  },
+  {
+    "objectID": "posts/07-30-distribution-fitting/index.html#note-on-the-illustration-at-the-head-of-the-post",
+    "href": "posts/07-30-distribution-fitting/index.html#note-on-the-illustration-at-the-head-of-the-post",
+    "title": "Fitting Distributions",
+    "section": "Note on the Illustration at the Head of the Post",
+    "text": "Note on the Illustration at the Head of the Post\nThi diagram at the beginning of this post is a small piece of an extraordinary illustration of the relationship among a large number of statistical distributions that is the main element of an article in The American Statistician from 2008 by Leemis and McQueston, Univariate Distribution Relationships. ((Leemis and McQueston 2008)) that the first author has enshrined in a web page that explains in detail each of the distributions and how they relate one to the other (https://www.math.wm.edu/~leemis/chart/UDR/UDR.html). This is a very valuable resource for anyone who is dealing with this subject."
+  },
+  {
+    "objectID": "posts/07-30-distribution-fitting/index.html#footnotes",
+    "href": "posts/07-30-distribution-fitting/index.html#footnotes",
+    "title": "Fitting Distributions",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nThe examples here will generally be generated in the R statistical language as that is what I generally use. However, this post will contain Python code as well.↩︎"
   }
 ]
