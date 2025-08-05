@@ -15,7 +15,7 @@ draft: false
 bibliography: references.bib
 ---
 
-![](lemmis_extract.png){fig-align="center"}
+![](leemis_extract.png){fig-align="center"}
 
 I have been working for the past month on developing a synthetic dataset to support the clinical trial our laboratory is starting in our search for a cure for HIV. Clearly, this is an ambitious goal. Our previous clinical trials and experiments, as well as the work of many other labs around the world have given us confidence that our approach can bear fruit. What is a synthetic dataset? Why am I interested in such a thing?
 
@@ -50,26 +50,31 @@ pacman::p_load(tidyverse, ggsci)
 cure1 <- readRDS('table1_cure1.rds')
 age_cure1 <- cure1$age_years
 age_cure1
-cure1 <- cure1 |> 
-  mutate(age_cure_grp = factor(case_when(
-    age_years <= 30 ~ "20 - 30",
-    age_years > 30 & age_years <= 40 ~ "31 - 40",
-    age_years > 40 & age_years <= 50 ~ "41 - 50",
-    age_years > 50 ~ "> 50"
-  ), levels = c("20 - 30", "31 - 40", "41 - 50", "> 50")))
+cure1 <- cure1 |>
+  mutate(
+    age_cure_grp = factor(
+      case_when(
+        age_years <= 30 ~ "20 - 30",
+        age_years > 30 & age_years <= 40 ~ "31 - 40",
+        age_years > 40 & age_years <= 50 ~ "41 - 50",
+        age_years > 50 ~ "> 50"
+      ),
+      levels = c("20 - 30", "31 - 40", "41 - 50", "> 50")
+    )
+  )
 cure1 |>
-  group_by(age_cure_grp) |> 
-  summarise(total = n()) |> 
-  select(age_cure_grp, total) |> 
-  gt::gt() |> 
+  group_by(age_cure_grp) |>
+  summarise(total = n()) |>
+  select(age_cure_grp, total) |>
+  gt::gt() |>
   gt::cols_label(
     age_cure_grp = "Age Group",
     total = "Total"
   )
-cure1  |> 
-  ggplot(aes(x = age_years)) + 
+cure1 |>
+  ggplot(aes(x = age_years)) +
   geom_histogram(aes(y = after_stat(density)), bins = 10, fill = "#155F83") +
-  geom_density(color = "#FFA319") + 
+  geom_density(color = "#FFA319") +
   theme_bw()
 
 ```
