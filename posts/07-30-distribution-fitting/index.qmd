@@ -17,11 +17,13 @@ bibliography: references.bib
 
 ![](leemis_extract.png){fig-align="center"}
 
-I have been working for the past month on developing a synthetic dataset to support the clinical trial our laboratory is starting in our search for a cure for HIV. Clearly, this is an ambitious goal. Our previous clinical trials and experiments, as well as the work of many other labs around the world have given us confidence that our approach can bear fruit. What is a synthetic dataset? Why am I interested in such a thing?
+I have been working for the past month on developing a synthetic dataset to support the clinical trial our laboratory is starting in our search for a cure for HIV. Clearly, curing HIV is an ambitious goal. Our previous clinical trials and experiments have given us confidence that our approach will move us forward.
 
-A synthetic dataset is a set of hypothetical cases that mirror as closely as possible *in silico* data that we are likely to collect from the real participants in our clinical trial. Synthetic datasets are useful when the process of collecting data is slow (as in our case) or the sample size is very restricted (as in the case of many animal model experiments where both ethics and cost limit how many animals can be sacrificed for an experimental result). In our case, eventually, we will replace our analyses conducted on the synthetic dataset with the results from the participants themselves.
+## What is a synthetic dataset? Why am I interested in such a thing?
 
-The experimental protocol of the clinical trial tells us what variables will be collected. The synthetic dataset will use the same variables. Obviously, one can't simply make the data up although you see frequently in texts, blog posts or statistical package manuals examples of simple random data predicated on a set of normally or uniformly distributed data, such as in the following example.[^1]
+A synthetic dataset is a set of hypothetical cases that mirror as closely as possible *in silico* (fancy word for on my computer) data that we are likely to collect from the real participants in our clinical trial. Synthetic datasets are useful when the process of collecting data is slow (our case) or the sample size is very restricted (as in the case of many animal model experiments where both ethics and cost limit how many animals can be sacrificed for an experimental result). In our case, we will replace our analyses conducted on the synthetic dataset with the results from the participants themselves.
+
+The experimental protocol of any clinical trial tells us what variables will be collected. The synthetic dataset will use the same variables. Obviously, one can't simply make the data up. However, you see exactly this frequently in texts, blog posts or statistical package manuals. The authors will show examples of data predicated on a set of normally or uniformly distributed data, such as in the following example.[^1]
 
 [^1]: The examples here will generally be generated in the R statistical language as that is what I generally use. However, this post will contain Python code as well.
 
@@ -29,11 +31,11 @@ The experimental protocol of the clinical trial tells us what variables will be 
 age <- runif(n = 100, min = 18, max = 65) # choose 100 random values between 18 and 65
 ```
 
-The question I would like to address in this post is how we go about choosing values to use in the variables we create for our synthetic dataset. These values should mimic as closely as possible the real values we are likely to encounter in the clinical trial. In only very few cases do we lack precedents or models that we can use for reasonable values for these variables. There are prior studies or trials that have reported values for the variables. They may not have the same objective or deal with exactly the same population as the real sample for the trial will, but they need to be "close enough" to make the analyses based on them reasonable approximations for the real data.
+How we go about choosing data to use in a synthetic dataset requires more profound thinking for the set to be worthwhile. These values should mimic as closely as possible the real values we are likely to encounter in the clinical trial. We can only make values up out of whole cloth in a very few cases. Prior studies or trials have reported values for the variables. They may not have the same objective or deal with exactly the same population as the real sample for the trial, but we need to make them "close enough" to make the analyses based on them reasonable approximations for the real data.
 
 ## Fitting a Distribution for a Numeric Variable
 
-There are many stages to preparing a synthetic dataset. In this post, I will limit myself to how we choose the distribution to use to set the values for a numeric variable. For example, in our clinical trial, one of the variables we collect on our participants is their age in years. Our trial will be limited to adults between 18 and 65 years – a common range for clinical trials. We also choose I will need to choose ages for 70 individuals (our "n") within that range.
+There are many stages to preparing a synthetic dataset. In this post, I will limit myself to how we choose the distribution to use to set the values for a numeric variable. For example, in our clinical trial, one of the variables we collect on our participants is their age in years. Our trial will be limited to adults between 18 and 65 years – a common range for clinical trials.
 
 ## Our Precedent for the Age Variable
 
@@ -41,7 +43,7 @@ From 2017 - 2020, our lab conducted a smaller trial (30 individuals) of a simila
 
 [^2]: A definitive summary of this trial is currently in the process of being published.
 
-As with any clinical trial, we need to assure that the members of the cohort reflect the population we are trying to measure, people living with HIV ("PLHIV") in Brazil. For age, that means comparing the profile of the ages of participants to other analyses of this group. However, I will leave that question open here and focus on the distribution of ages to use as a model for age in the synthetic cohort for the new trial.
+This distribution is a good start. But, we need to check it against reality. Do the members of the artificial cohort reflect the population we are trying to measure, i.e., people living with HIV ("PLHIV") in Brazil. For age, that means comparing the profile of the ages of participants to other analyses of this group. However, I will leave that question open here and focus on the distribution of ages to use as a model for age in the synthetic cohort for the new trial.
 
 Here is a list and histogram of the ages of the participants in the first trial.
 
@@ -81,11 +83,11 @@ cure1 |>
 
 ## Distribution of the `age_years` Variable
 
-The density curve of the age data appears monomodal, with just one peak. The histogram, however, suggests that there is a second mode at the elderly end of the age spectrum. Picking a distribution that is an adequate model for projecting new cohorts of PLHIV who are likely to be enrolled in the new study is not obvious.
+The density curve of the age data appears monomodal; it has just one peak. The histogram, however, suggests that there is a second mode at the elderly end of the age spectrum. Picking a distribution that is an adequate model for projecting new cohorts of PLHIV who are likely to be enrolled in the new study is not obvious.
 
 ### Intuitive Distribution Selection
 
-The dominant mode around 30 years old suggests visually that the distribution may be normal in character. That is our intuitive first guess about the type of data in the age variable. Testing normality is relatively straightforward. We can use either the Shapiro-Wilk test or the Anderson-Darling tests of normality. In both cases, if the p-value of the test is less than a value we set, by custom 0.10 for normality tests, we consider that the normal distribution does not describe the data. Let's try those with our data.
+The dominant mode around 30 years old suggests visually that the distribution may be normal in character. That is our intuitive first guess about the type of data in the age variable. Testing normality is relatively straightforward. We can use either the Shapiro-Wilk or the Anderson-Darling tests of normality. In both cases, if the p-value of the test is less than a value we set, by custom 0.10 for normality tests, we consider that the normal distribution does not describe the data. Let's try those with our data.
 
 ```{r}
 
