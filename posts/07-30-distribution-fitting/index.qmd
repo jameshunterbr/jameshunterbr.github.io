@@ -28,57 +28,54 @@ The experimental protocol of any clinical trial tells us what variables will be 
 [^1]: The examples here will generally be generated in the R statistical language as that is what I generally use. However, this post will contain Python code as well.
 
 ```{r eval = FALSE}
-age <- runif(n = 100, min = 18, max = 65) # choose 100 random values between 18 and 65
+# choose 100 random values between 18 and 65
+age <- runif(n = 100, min = 18, max = 65) 
 ```
 
-How we go about choosing data to use in a synthetic dataset requires more profound thinking for the set to be worthwhile. These values should mimic as closely as possible the real values we are likely to encounter in the clinical trial. We can only make values up out of whole cloth in a very few cases. Prior studies or trials have reported values for the variables. They may not have the same objective or deal with exactly the same population as the real sample for the trial, but we need to make them "close enough" to make the analyses based on them reasonable approximations for the real data.
+How we go about choosing data to use in a synthetic dataset requires more profound thinking for the set to be worthwhile. These values should mimic as closely as possible the real values we are likely to encounter in the clinical trial. We can only make values up out of whole cloth in a very few cases. Where do we find precedents for the variables we want to simulate? The principal source is prior studies or trials. They may not have the same objective or deal with exactly the same population as the real sample for the trial, but we need to make them "close enough" to make the analyses based on them reasonable approximations for the real data.
 
-## Fitting a Distribution for a Numeric Variable
+## Importance of Domain Knowledge
 
-There are many stages to preparing a synthetic dataset. In this post, I will limit myself to how we choose the distribution to use to set the values for a numeric variable. For example, in our clinical trial, one of the variables we collect on our participants is their age in years. Our trial will be limited to adults between 18 and 65 years – a common range for clinical trials.
+The analyst will have to apply their **domain knowledge** to the data to achieve reasonable values. Someone who is trying to create synthetic variables without understanding the real world factors applicable to that variable is unlikely to produce useful values. Below, I will show how I go about simulating the ages of a potential panel of people living with HIV ("PLHIV") in Brazil. I will discuss what we know from a previous study of a similar population, how that can be adjusted to reflect issues that were not included in the prior study, but are likely to play a part in a new study.
+
+## The Problem Here - Fitting a Numerical Variable
+
+The dataset I am creating has both categorical and numerical variables. In this post, I will focus on a single numerical variable - the age of participants in years. Our new clinical trial will be limited to adults between 18 and 65 years – a common range for clinical trials. What I want to do is to specify the statistical distribution that best describes the ages of 70 people (our `n`). I can then use that distribution to predict the ages of my 70 synthetic participants in the study.
 
 ## Our Precedent for the Age Variable
 
-From 2017 - 2020, our lab conducted a smaller trial (30 individuals) of a similar strategy for HIV cure.[^2] Among the demographic variables about the participants in that trial, we recorded the age in years at the beginning of the trial.
+From 2017 - 2020, our lab conducted a smaller trial (30 individuals) of a similar strategy for HIV cure.[^2] I will refer to that study as `Cure1` for convenience. Among the demographic variables about the participants in that trial, we recorded the age in years at the beginning of the trial. These values are a good place to start. They describe a similar population and we will be using them in the same way in the new study. The only difference in the protocols of the studies is that the earlier study only included men and the new study will include everyone.
 
 [^2]: A definitive summary of this trial is currently in the process of being published.
 
-This distribution is a good start. But, we need to check it against reality. Do the members of the artificial cohort reflect the population we are trying to measure, i.e., people living with HIV ("PLHIV") in Brazil. For age, that means comparing the profile of the ages of participants to other analyses of this group. However, I will leave that question open here and focus on the distribution of ages to use as a model for age in the synthetic cohort for the new trial.
+## Fitting a Distribution
 
-Here is a list and histogram of the ages of the participants in the first trial.
+One of the problems that data analysts confront regularly is how to describe a set of values, such as the `Cure1` age variable. We can list the values. With only 30 cases that is reasonable, but I'm not sure how we draw conclusions from a simple, unordered list. However, with 100, 1,000, or 500,000 cases, listing doesn't help us understand the data.
 
-```{r cure1, echo = FALSE}
+```{r cure1a, echo = FALSE}
 pacman::p_load(tidyverse, ggsci)
 cure1 <- readRDS('table1_cure1.rds')
 age_cure1 <- cure1$age_years
 age_cure1
-cure1 <- cure1 |>
-  mutate(
-    age_cure_grp = factor(
-      case_when(
-        age_years <= 30 ~ "20 - 30",
-        age_years > 30 & age_years <= 40 ~ "31 - 40",
-        age_years > 40 & age_years <= 50 ~ "41 - 50",
-        age_years > 50 ~ "> 50"
-      ),
-      levels = c("20 - 30", "31 - 40", "41 - 50", "> 50")
-    )
-  )
-cure1 |>
-  group_by(age_cure_grp) |>
-  summarise(total = n()) |>
-  select(age_cure_grp, total) |>
-  gt::gt() |>
-  gt::cols_label(
-    age_cure_grp = "Age Group",
-    total = "Total"
-  )
+
+```
+
+We can summarize the data with measures of the centrality of the cases (their mean or median) and the variation around that central point as we normally do for variables.
+
+```{r cure1b, echo = FALSE}
+summarytools::descr(age_cure1, stats = "common", transpose = TRUE)
+```
+
+We can also graph the data with a density curve or a histogram. This is an appealing idea and it helps us to see the overall trends in the variable. Intuitively, we get a greater degree of satisfaction from the image.
+
+```{r cure1c, echo = FALSE}
 cure1 |>
   ggplot(aes(x = age_years)) +
   geom_histogram(aes(y = after_stat(density)), bins = 10, fill = "#155F83") +
   geom_density(color = "#FFA319") +
+xlab("Age in Years") +
+ylab("Density") +
   theme_bw()
-
 ```
 
 ## Distribution of the `age_years` Variable
