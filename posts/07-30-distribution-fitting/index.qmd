@@ -80,11 +80,13 @@ ylab("Density") +
 
 ## Distribution of the `age_years` Variable
 
-The density curve of the age data appears monomodal; it has just one peak. The histogram, however, suggests that there is a second mode at the elderly end of the age spectrum. Picking a distribution that is an adequate model for projecting new cohorts of PLHIV who are likely to be enrolled in the new study is not obvious.
+As usually occurs, the density curve tells one story: the data appears sort of normally distributed with one peak. This idea is supported by the proximity of the mean and median in the table of summary values. However, the histogram suggests another story: that there may be a second peak, making the data bimodal and not likely normal (like most real-world data[@downey2013]).
 
-### Intuitive Distribution Selection
+### Testing Our Intuition about Normality
 
-The dominant mode around 30 years old suggests visually that the distribution may be normal in character. That is our intuitive first guess about the type of data in the age variable. Testing normality is relatively straightforward. We can use either the Shapiro-Wilk or the Anderson-Darling tests of normality. In both cases, if the p-value of the test is less than a value we set, by custom 0.10 for normality tests, we consider that the normal distribution does not describe the data. Let's try those with our data.
+So a reasonable intuitive first guess about the type of data in the age variable is to treat it as normal. This is very attractive because we can create new cases using the probability density function of the normal curve using the mean and standard deviation.
+
+Testing normality is also relatively straightforward. We can use either the Shapiro-Wilk or the Anderson-Darling tests of normality. In both cases, if the p-value of the test is less than a value we set, by custom 0.10 for normality tests, we reject the null hypothesis that the data are normal and consider that the normal distribution does not describe the data. Let's try those with our data.
 
 ```{r}
 
@@ -97,7 +99,11 @@ nortest::ad.test(age_cure1)
 
 In both these tests, the age data does not appear to be normally, even for the more liberal Anderson-Darling test.
 
-Now, what? We can continue to test continuous distributions and hope we find one that fits the pattern of our data. That's not very efficient and depends on our
+## Now, what?
+
+We can continue to test continuous distributions one-by-one and hope we find one that fits the pattern of our data. That's not very efficient and depends on our knowledge of the different distributions that we can use. The illustration at the top of this post shows the complexity of the search. R does have a package that help you find a distribution that best fits your data. It does have a package, `fitdistr`,[@delignette-muller2015] and a function within the modeling package `MASS`[@venables2002] that assist in defining the parameter values for a distribution you choose. But, help at the basic level of finding a function, no joy from R. This is quite frustrating. Even those with a long experience with statistics and different distributions will worry that they did not test enough different distributions to find the best fit.
+
+However, the Python language has a package, `distfit`, [@taskesen2025] that actually helps the data ~~grubber~~ scientist out.
 
 ## Note on the Illustration at the Head of the Post
 

@@ -300,14 +300,14 @@ N: 30
 </div>
 </div>
 </div>
-<p>Collectively, they describe a distribution of values that can be represented visually and We need to check it against reality. Do the members of the artificial cohort reflect the population we are trying to measure, i.e., PLHIV. For age, that means comparing the profile of the ages of participants to other analyses of this group. However, I will leave that question open here and focus on the distribution of ages to use as a model for age in the synthetic cohort for the new trial.</p>
 </section>
 <section id="distribution-of-the-age_years-variable" class="level2">
 <h2 class="anchored" data-anchor-id="distribution-of-the-age_years-variable">Distribution of the <code>age_years</code> Variable</h2>
-<p>The density curve of the age data appears monomodal; it has just one peak. The histogram, however, suggests that there is a second mode at the elderly end of the age spectrum. Picking a distribution that is an adequate model for projecting new cohorts of PLHIV who are likely to be enrolled in the new study is not obvious.</p>
-<section id="intuitive-distribution-selection" class="level3">
-<h3 class="anchored" data-anchor-id="intuitive-distribution-selection">Intuitive Distribution Selection</h3>
-<p>The dominant mode around 30 years old suggests visually that the distribution may be normal in character. That is our intuitive first guess about the type of data in the age variable. Testing normality is relatively straightforward. We can use either the Shapiro-Wilk or the Anderson-Darling tests of normality. In both cases, if the p-value of the test is less than a value we set, by custom 0.10 for normality tests, we consider that the normal distribution does not describe the data. Let’s try those with our data.</p>
+<p>As usually occurs, the density curve tells one story: the data appears sort of normally distributed with one peak. This idea is supported by the proximity of the mean and median in the table of summary values. However, the histogram suggests another story: that there may be a second peak, making the data bimodal and not likely normal.</p>
+<section id="testing-our-intuition-about-normality" class="level3">
+<h3 class="anchored" data-anchor-id="testing-our-intuition-about-normality">Testing Our Intuition about Normality</h3>
+<p>So a reasonable intuitive first guess about the type of data in the age variable is to treat it as normal. This is very attractive because we can create new cases using the probability density function of the normal curve using the mean and standard deviation.</p>
+<p>Testing normality is also relatively straightforward. We can use either the Shapiro-Wilk or the Anderson-Darling tests of normality. In both cases, if the p-value of the test is less than a value we set, by custom 0.10 for normality tests, we reject the null hypothesis that the data are normal and consider that the normal distribution does not describe the data. Let’s try those with our data.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Shapiro-Wilk</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(age_cure1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -329,8 +329,11 @@ A = 0.64476, p-value = 0.08372</code></pre>
 </div>
 </div>
 <p>In both these tests, the age data does not appear to be normally, even for the more liberal Anderson-Darling test.</p>
-<p>Now, what? We can continue to test continuous distributions and hope we find one that fits the pattern of our data. That’s not very efficient and depends on our</p>
 </section>
+</section>
+<section id="now-what" class="level2">
+<h2 class="anchored" data-anchor-id="now-what">Now, what?</h2>
+<p>We can continue to test continuous distributions and hope we find one that fits the pattern of our data. That’s not very efficient and depends on our</p>
 </section>
 <section id="note-on-the-illustration-at-the-head-of-the-post" class="level2">
 <h2 class="anchored" data-anchor-id="note-on-the-illustration-at-the-head-of-the-post">Note on the Illustration at the Head of the Post</h2>
