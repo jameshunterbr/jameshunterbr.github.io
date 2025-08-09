@@ -138,6 +138,35 @@ div.csl-indent {
   });
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -386,11 +415,12 @@ A = 0.64476, p-value = 0.08372</code></pre>
 </section>
 <section id="fit-the-data" class="level3">
 <h3 class="anchored" data-anchor-id="fit-the-data">Fit the Data</h3>
-<p>Now, you will instruct <code>distfit</code> to fit the data to the distributions by applying its key function, <code>fit_transform</code>. It prints out by default its fitting process in a fairly ugly table and you can suppress that by applying the parameter <code>verbose = 'off'</code>. This information will still be available by printing the results of the search as I will show below.</p>
+<p>Now, you will instruct <code>distfit</code> to fit the data to the distributions by applying its key function, <code>fit_transform</code>. It prints out by default its fitting process in a fairly ugly table and you can suppress that by applying the parameter <code>verbose = 'off'</code>. This information will still be available by printing the “summary” subsection of the <code>results_age</code> object.</p>
+<p>One note ab</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">## fit the data</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>results_age <span class="op">=</span> dist.fit_transform(age)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>results_age[<span class="st">'model'</span>]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>results_age <span class="op">=</span> dist.fit_transform(age, verbose <span class="op">=</span> <span class="st">'off'</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>results_age[<span class="st">'summary'</span>]</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the best-fitting distribution</span></span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best fitting distribution (default settings):"</span>, dist.model[<span class="st">"name"</span>])</span>
@@ -399,714 +429,147 @@ A = 0.64476, p-value = 0.08372</code></pre>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Parameters:"</span>, dist.model[<span class="st">"params"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 3%">
+<col style="width: 8%">
+<col style="width: 6%">
+<col style="width: 10%">
+<col style="width: 9%">
+<col style="width: 26%">
+<col style="width: 32%">
+</colgroup>
 <thead>
-<tr>
-<th>
-<p>
-</p>
-</th>
-<th>
-<p>
-name
-</p>
-</th>
-<th>
-<p>
-score
-</p>
-</th>
-<th>
-<p>
-loc
-</p>
-</th>
-<th>
-<p>
-scale
-</p>
-</th>
-<th>
-<p>
-arg
-</p>
-</th>
-<th>
-<p>
-params
-</p>
-</th>
-<th>
-<p>
-model
-</p>
-</th>
-<th>
-<p>
-bootstrap_score
-</p>
-</th>
-<th>
-<p>
-bootstrap_pass
-</p>
-</th>
-<th>
-<p>
-color
-</p>
-</th>
+<tr class="header">
+<th></th>
+<th>name</th>
+<th>score</th>
+<th>loc</th>
+<th>scale</th>
+<th>arg</th>
+<th>params</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>
-<p>
-0
-</p>
-</td>
-<td>
-<p>
-beta
-</p>
-</td>
-<td>
-<p>
-0.0028
-</p>
-</td>
-<td>
-<p>
-25.0
-</p>
-</td>
-<td>
-<p>
-36.11162
-</p>
-</td>
-<td>
-<p>
-(0.8025498392820567, 0.9178616649673106)
-</p>
-</td>
-<td>
-<p>
-(0.8025498392820567, 0.9178616649673106, 24.99…
-</p>
-</td>
-<td>
-<p>
-&lt;scipy.stats._distn_infrastructure.rv_continuo…
-</p>
-</td>
-<td>
-<p>
-0
-</p>
-</td>
-<td>
-<p>
-None
-</p>
-</td>
-<td>
-<p>
-#e41a1c
-</p>
-</td>
+<tr class="odd">
+<td>0</td>
+<td>beta</td>
+<td>0.0028</td>
+<td>25.0</td>
+<td>36.11162</td>
+<td>(0.8025498392820567, 0.9178616649673106)</td>
+<td>(0.8025498392820567, 0.9178616649673106, 24.99…</td>
 </tr>
-<tr>
-<td>
-<p>
-1
-</p>
-</td>
-<td>
-<p>
-uniform
-</p>
-</td>
-<td>
-<p>
-0.003086
-</p>
-</td>
-<td>
-<p>
-25.0
-</p>
-</td>
-<td>
-<p>
-36.0
-</p>
-</td>
-<td>
-<p>
-()
-</p>
-</td>
-<td>
-<p>
-(25.0, 36.0)
-</p>
-</td>
-<td>
-<p>
-&lt;scipy.stats._distn_infrastructure.rv_continuo…
-</p>
-</td>
-<td>
-<p>
-0
-</p>
-</td>
-<td>
-<p>
-None
-</p>
-</td>
-<td>
-<p>
-#e41a1c
-</p>
-</td>
+<tr class="even">
+<td>1</td>
+<td>uniform</td>
+<td>0.003086</td>
+<td>25.0</td>
+<td>36.0</td>
+<td>()</td>
+<td>(25.0, 36.0)</td>
 </tr>
-<tr>
-<td>
-<p>
-2
-</p>
-</td>
-<td>
-<p>
-gamma
-</p>
-</td>
-<td>
-<p>
-0.003121
-</p>
-</td>
-<td>
-<p>
-23.671861
-</p>
-</td>
-<td>
-<p>
-8.266671
-</p>
-</td>
-<td>
-<p>
-(2.088083794086531,)
-</p>
-</td>
-<td>
-<p>
-(2.088083794086531, 23.671860572721016, 8.2666…
-</p>
-</td>
-<td>
-<p>
-&lt;scipy.stats._distn_infrastructure.rv_continuo…
-</p>
-</td>
-<td>
-<p>
-0
-</p>
-</td>
-<td>
-<p>
-None
-</p>
-</td>
-<td>
-<p>
-#377eb8
-</p>
-</td>
+<tr class="odd">
+<td>2</td>
+<td>gamma</td>
+<td>0.003121</td>
+<td>23.671861</td>
+<td>8.266671</td>
+<td>(2.088083794086531,)</td>
+<td>(2.088083794086531, 23.671860572721016, 8.2666…</td>
 </tr>
-<tr>
-<td>
-<p>
-3
-</p>
-</td>
-<td>
-<p>
-lognorm
-</p>
-</td>
-<td>
-<p>
-0.003483
-</p>
-</td>
-<td>
-<p>
-16.360629
-</p>
-</td>
-<td>
-<p>
-22.197751
-</p>
-</td>
-<td>
-<p>
-(0.4600824242349388,)
-</p>
-</td>
-<td>
-<p>
-(0.4600824242349388, 16.360629455434452, 22.19…
-</p>
-</td>
-<td>
-<p>
-&lt;scipy.stats._distn_infrastructure.rv_continuo…
-</p>
-</td>
-<td>
-<p>
-0
-</p>
-</td>
-<td>
-<p>
-None
-</p>
-</td>
-<td>
-<p>
-#4daf4a
-</p>
-</td>
+<tr class="even">
+<td>3</td>
+<td>lognorm</td>
+<td>0.003483</td>
+<td>16.360629</td>
+<td>22.197751</td>
+<td>(0.4600824242349388,)</td>
+<td>(0.4600824242349388, 16.360629455434452, 22.19…</td>
 </tr>
-<tr>
-<td>
-<p>
-4
-</p>
-</td>
-<td>
-<p>
-genextreme
-</p>
-</td>
-<td>
-<p>
-0.003782
-</p>
-</td>
-<td>
-<p>
-35.824969
-</p>
-</td>
-<td>
-<p>
-8.722759
-</p>
-</td>
-<td>
-<p>
-(0.0022036972929905738,)
-</p>
-</td>
-<td>
-<p>
-(0.0022036972929905738, 35.82496922660661, 8.7…
-</p>
-</td>
-<td>
-<p>
-&lt;scipy.stats._distn_infrastructure.rv_continuo…
-</p>
-</td>
-<td>
-<p>
-0
-</p>
-</td>
-<td>
-<p>
-None
-</p>
-</td>
-<td>
-<p>
-#984ea3
-</p>
-</td>
+<tr class="odd">
+<td>4</td>
+<td>genextreme</td>
+<td>0.003782</td>
+<td>35.824969</td>
+<td>8.722759</td>
+<td>(0.0022036972929905738,)</td>
+<td>(0.0022036972929905738, 35.82496922660661, 8.7…</td>
 </tr>
-<tr>
-<td>
-<p>
-5
-</p>
-</td>
-<td>
-<p>
-dweibull
-</p>
-</td>
-<td>
-<p>
-0.003907
-</p>
-</td>
-<td>
-<p>
-39.071432
-</p>
-</td>
-<td>
-<p>
-10.101049
-</p>
-</td>
-<td>
-<p>
-(1.4994902513440642,)
-</p>
-</td>
-<td>
-<p>
-(1.4994902513440642, 39.07143209580082, 10.101…
-</p>
-</td>
-<td>
-<p>
-&lt;scipy.stats._distn_infrastructure.rv_continuo…
-</p>
-</td>
-<td>
-<p>
-0
-</p>
-</td>
-<td>
-<p>
-None
-</p>
-</td>
-<td>
-<p>
-#ff7f00
-</p>
-</td>
+<tr class="even">
+<td>5</td>
+<td>dweibull</td>
+<td>0.003907</td>
+<td>39.071432</td>
+<td>10.101049</td>
+<td>(1.4994902513440642,)</td>
+<td>(1.4994902513440642, 39.07143209580082, 10.101…</td>
 </tr>
-<tr>
-<td>
-<p>
-6
-</p>
-</td>
-<td>
-<p>
-pareto
-</p>
-</td>
-<td>
-<p>
-0.00408
-</p>
-</td>
-<td>
-<p>
--4294967271.0
-</p>
-</td>
-<td>
-<p>
-4294967296.0
-</p>
-</td>
-<td>
-<p>
-(269558617.63340104,)
-</p>
-</td>
-<td>
-<p>
-(269558617.63340104, -4294967271.0, 4294967295…
-</p>
-</td>
-<td>
-<p>
-&lt;scipy.stats._distn_infrastructure.rv_continuo…
-</p>
-</td>
-<td>
-<p>
-0
-</p>
-</td>
-<td>
-<p>
-None
-</p>
-</td>
-<td>
-<p>
-#ffff33
-</p>
-</td>
+<tr class="odd">
+<td>6</td>
+<td>pareto</td>
+<td>0.00408</td>
+<td>-4294967271.0</td>
+<td>4294967296.0</td>
+<td>(269558617.63340104,)</td>
+<td>(269558617.63340104, -4294967271.0, 4294967295…</td>
 </tr>
-<tr>
-<td>
-<p>
-7
-</p>
-</td>
-<td>
-<p>
-expon
-</p>
-</td>
-<td>
-<p>
-0.00408
-</p>
-</td>
-<td>
-<p>
-25.0
-</p>
-</td>
-<td>
-<p>
-15.933333
-</p>
-</td>
-<td>
-<p>
-()
-</p>
-</td>
-<td>
-<p>
-(25.0, 15.93333333333333)
-</p>
-</td>
-<td>
-<p>
-&lt;scipy.stats._distn_infrastructure.rv_continuo…
-</p>
-</td>
-<td>
-<p>
-0
-</p>
-</td>
-<td>
-<p>
-None
-</p>
-</td>
-<td>
-<p>
-#a65628
-</p>
-</td>
+<tr class="even">
+<td>7</td>
+<td>expon</td>
+<td>0.00408</td>
+<td>25.0</td>
+<td>15.933333</td>
+<td>()</td>
+<td>(25.0, 15.93333333333333)</td>
 </tr>
-<tr>
-<td>
-<p>
-8
-</p>
-</td>
-<td>
-<p>
-loggamma
-</p>
-</td>
-<td>
-<p>
-0.004597
-</p>
-</td>
-<td>
-<p>
--2655.155819
-</p>
-</td>
-<td>
-<p>
-380.373447
-</p>
-</td>
-<td>
-<p>
-(1197.9723285969549,)
-</p>
-</td>
-<td>
-<p>
-(1197.9723285969549, -2655.1558188017243, 380….
-</p>
-</td>
-<td>
-<p>
-&lt;scipy.stats._distn_infrastructure.rv_continuo…
-</p>
-</td>
-<td>
-<p>
-0
-</p>
-</td>
-<td>
-<p>
-None
-</p>
-</td>
-<td>
-<p>
-#f781bf
-</p>
-</td>
+<tr class="odd">
+<td>8</td>
+<td>loggamma</td>
+<td>0.004597</td>
+<td>-2655.155819</td>
+<td>380.373447</td>
+<td>(1197.9723285969549,)</td>
+<td>(1197.9723285969549, -2655.1558188017243, 380….</td>
 </tr>
-<tr>
-<td>
-<p>
-9
-</p>
-</td>
-<td>
-<p>
-norm
-</p>
-</td>
-<td>
-<p>
-0.00464
-</p>
-</td>
-<td>
-<p>
-40.933333
-</p>
-</td>
-<td>
-<p>
-10.797942
-</p>
-</td>
-<td>
-<p>
-()
-</p>
-</td>
-<td>
-<p>
-(40.93333333333333, 10.797942190785962)
-</p>
-</td>
-<td>
-<p>
-&lt;scipy.stats._distn_infrastructure.rv_continuo…
-</p>
-</td>
-<td>
-<p>
-0
-</p>
-</td>
-<td>
-<p>
-None
-</p>
-</td>
-<td>
-<p>
-#999999
-</p>
-</td>
+<tr class="even">
+<td>9</td>
+<td>norm</td>
+<td>0.00464</td>
+<td>40.933333</td>
+<td>10.797942</td>
+<td>()</td>
+<td>(40.93333333333333, 10.797942190785962)</td>
 </tr>
-<tr>
-<td>
-<p>
-10
-</p>
-</td>
-<td>
-<p>
-t
-</p>
-</td>
-<td>
-<p>
-0.00464
-</p>
-</td>
-<td>
-<p>
-40.933326
-</p>
-</td>
-<td>
-<p>
-10.797932
-</p>
-</td>
-<td>
-<p>
-(547125.3203099226,)
-</p>
-</td>
-<td>
-<p>
-(547125.3203099226, 40.933325979689144, 10.797…
-</p>
-</td>
-<td>
-<p>
-&lt;scipy.stats._distn_infrastructure.rv_continuo…
-</p>
-</td>
-<td>
-<p>
-0
-</p>
-</td>
-<td>
-<p>
-None
-</p>
-</td>
-<td>
-<p>
-#999999
-</p>
-</td>
+<tr class="odd">
+<td>10</td>
+<td>t</td>
+<td>0.00464</td>
+<td>40.933326</td>
+<td>10.797932</td>
+<td>(547125.3203099226,)</td>
+<td>(547125.3203099226, 40.933325979689144, 10.797…</td>
 </tr>
 </tbody>
 </table>
 </div>
+<p>The table I show above is slightly abbreviated from what the function produces. I’ve reduced the number of columns to those that provide the key data for making the decision about the best fitting distribution. The score parameter that ranks the distributions uses in this case the RSS (“residual sum of squares”) measure. <code>distfit</code> offers other minimization criteria that you will find in the documentation. The <code>loc</code> and <code>scale</code> columns are the mean and standard deviations for the variable. The <code>arg</code> and <code>params</code> columns are two ways of viewing the parameters that the distribution uses.</p>
+<p>For example, the beta distribution has two parameters, <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> that define the shape of the curve. These are the arguments in the <code>arg</code> column. The <code>params</code> column also provides the mean and standard deviation. You can see these below in the parameters item of the following output.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>Best fitting distribution (default settings): beta</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>Parameters: (np.float64(<span class="fl">0.8025498392820591</span>), np.float64(<span class="fl">0.9178616649673115</span>), np.float64(<span class="fl">24.999999999999996</span>), np.float64(<span class="fl">36.111620048509906</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>As you can see, I printed out the best fitting distribution and the parameters for that distribution. In this case, the best distribution was a beta distribution, not a normal distribution.</p>
+</section>
+<section id="the-best-distribution" class="level3">
+<h3 class="anchored" data-anchor-id="the-best-distribution">The “Best” Distribution</h3>
+<p>Using RSS as its scoring criterion, <code>distfit</code> has chosen the beta distribution as the best. The normal distribution that we started with ended up near the end of the list, followed only by its fatter-tailed first cousin, the t-distribution. I can note for you that this search took 0.1 seconds and that using a search of all 68 distributions took only 4.5 seconds on my Macbook Air M1 computer. Very impressive speeds that replace hours of trying various combinations one-by-one. <code>distfit</code> does permit you to search on one distribution at a time, but there seems little point in doing that since you will surely always have the doubt that the correct best distribution was the next one that you did not get around to exploring.</p>
+</section>
+<section id="graphic-representation-of-the-model-result" class="level3">
+<h3 class="anchored" data-anchor-id="graphic-representation-of-the-model-result">Graphic Representation of the Model Result</h3>
+<p><code>distfit</code> also produces a graph of your result and shows the density of the beta distribution fit over a histogram of your data. It uses the <code>plot</code> method applied to your original <code>dist</code> object you created when you initiated <code>distfit</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dist.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 </section>
 <section id="note-on-the-illustration-at-the-head-of-the-post" class="level2">

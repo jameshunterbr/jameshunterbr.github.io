@@ -146,12 +146,12 @@ dist = distfit(bins = 15)
 
 ### Fit the Data
 
-Now, you will instruct `distfit` to fit the data to the distributions by applying its key function, `fit_transform`. It prints out by default its fitting process in a fairly ugly table and you can suppress that by applying the parameter `verbose = 'off'`. This information will still be available by printing the results of the search as I will show below.
+Now, you will instruct `distfit` to fit the data to the distributions by applying its key function, `fit_transform`. It prints out by default its fitting process in a fairly ugly table and you can suppress that by applying the parameter `verbose = 'off'`. This information will still be available by printing the "summary" subsection of the `results_age` object.
 
 ```{python, eval = FALSE}
 ## fit the data
-results_age = dist.fit_transform(age)
-results_age['model']
+results_age = dist.fit_transform(age, verbose = 'off')
+results_age['summary']
 
 # Print the best-fitting distribution
 print("Best fitting distribution (default settings):", dist.model["name"])
@@ -162,193 +162,100 @@ print("Parameters:", dist.model["params"])
 
 <div>
 
-```{=html}
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-```
-
-<table>
-<thead>
-<tr>
-<th><p></p></th>
-<th><p>name</p></th>
-<th><p>score</p></th>
-<th><p>loc</p></th>
-<th><p>scale</p></th>
-<th><p>arg</p></th>
-<th><p>params</p></th>
-<th><p>model</p></th>
-<th><p>bootstrap_score</p></th>
-<th><p>bootstrap_pass</p></th>
-<th><p>color</p></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><p>0</p></td>
-<td><p>beta</p></td>
-<td><p>0.0028</p></td>
-<td><p>25.0</p></td>
-<td><p>36.11162</p></td>
-<td><p>(0.8025498392820567, 0.9178616649673106)</p></td>
-<td><p>(0.8025498392820567, 0.9178616649673106, 24.99...</p></td>
-<td><p>&lt;scipy.stats._distn_infrastructure.rv_continuo...</p></td>
-<td><p>0</p></td>
-<td><p>None</p></td>
-<td><p>#e41a1c</p></td>
-</tr>
-<tr>
-<td><p>1</p></td>
-<td><p>uniform</p></td>
-<td><p>0.003086</p></td>
-<td><p>25.0</p></td>
-<td><p>36.0</p></td>
-<td><p>()</p></td>
-<td><p>(25.0, 36.0)</p></td>
-<td><p>&lt;scipy.stats._distn_infrastructure.rv_continuo...</p></td>
-<td><p>0</p></td>
-<td><p>None</p></td>
-<td><p>#e41a1c</p></td>
-</tr>
-<tr>
-<td><p>2</p></td>
-<td><p>gamma</p></td>
-<td><p>0.003121</p></td>
-<td><p>23.671861</p></td>
-<td><p>8.266671</p></td>
-<td><p>(2.088083794086531,)</p></td>
-<td><p>(2.088083794086531, 23.671860572721016, 8.2666...</p></td>
-<td><p>&lt;scipy.stats._distn_infrastructure.rv_continuo...</p></td>
-<td><p>0</p></td>
-<td><p>None</p></td>
-<td><p>#377eb8</p></td>
-</tr>
-<tr>
-<td><p>3</p></td>
-<td><p>lognorm</p></td>
-<td><p>0.003483</p></td>
-<td><p>16.360629</p></td>
-<td><p>22.197751</p></td>
-<td><p>(0.4600824242349388,)</p></td>
-<td><p>(0.4600824242349388, 16.360629455434452, 22.19...</p></td>
-<td><p>&lt;scipy.stats._distn_infrastructure.rv_continuo...</p></td>
-<td><p>0</p></td>
-<td><p>None</p></td>
-<td><p>#4daf4a</p></td>
-</tr>
-<tr>
-<td><p>4</p></td>
-<td><p>genextreme</p></td>
-<td><p>0.003782</p></td>
-<td><p>35.824969</p></td>
-<td><p>8.722759</p></td>
-<td><p>(0.0022036972929905738,)</p></td>
-<td><p>(0.0022036972929905738, 35.82496922660661, 8.7...</p></td>
-<td><p>&lt;scipy.stats._distn_infrastructure.rv_continuo...</p></td>
-<td><p>0</p></td>
-<td><p>None</p></td>
-<td><p>#984ea3</p></td>
-</tr>
-<tr>
-<td><p>5</p></td>
-<td><p>dweibull</p></td>
-<td><p>0.003907</p></td>
-<td><p>39.071432</p></td>
-<td><p>10.101049</p></td>
-<td><p>(1.4994902513440642,)</p></td>
-<td><p>(1.4994902513440642, 39.07143209580082, 10.101...</p></td>
-<td><p>&lt;scipy.stats._distn_infrastructure.rv_continuo...</p></td>
-<td><p>0</p></td>
-<td><p>None</p></td>
-<td><p>#ff7f00</p></td>
-</tr>
-<tr>
-<td><p>6</p></td>
-<td><p>pareto</p></td>
-<td><p>0.00408</p></td>
-<td><p>-4294967271.0</p></td>
-<td><p>4294967296.0</p></td>
-<td><p>(269558617.63340104,)</p></td>
-<td><p>(269558617.63340104, -4294967271.0, 4294967295...</p></td>
-<td><p>&lt;scipy.stats._distn_infrastructure.rv_continuo...</p></td>
-<td><p>0</p></td>
-<td><p>None</p></td>
-<td><p>#ffff33</p></td>
-</tr>
-<tr>
-<td><p>7</p></td>
-<td><p>expon</p></td>
-<td><p>0.00408</p></td>
-<td><p>25.0</p></td>
-<td><p>15.933333</p></td>
-<td><p>()</p></td>
-<td><p>(25.0, 15.93333333333333)</p></td>
-<td><p>&lt;scipy.stats._distn_infrastructure.rv_continuo...</p></td>
-<td><p>0</p></td>
-<td><p>None</p></td>
-<td><p>#a65628</p></td>
-</tr>
-<tr>
-<td><p>8</p></td>
-<td><p>loggamma</p></td>
-<td><p>0.004597</p></td>
-<td><p>-2655.155819</p></td>
-<td><p>380.373447</p></td>
-<td><p>(1197.9723285969549,)</p></td>
-<td><p>(1197.9723285969549, -2655.1558188017243, 380....</p></td>
-<td><p>&lt;scipy.stats._distn_infrastructure.rv_continuo...</p></td>
-<td><p>0</p></td>
-<td><p>None</p></td>
-<td><p>#f781bf</p></td>
-</tr>
-<tr>
-<td><p>9</p></td>
-<td><p>norm</p></td>
-<td><p>0.00464</p></td>
-<td><p>40.933333</p></td>
-<td><p>10.797942</p></td>
-<td><p>()</p></td>
-<td><p>(40.93333333333333, 10.797942190785962)</p></td>
-<td><p>&lt;scipy.stats._distn_infrastructure.rv_continuo...</p></td>
-<td><p>0</p></td>
-<td><p>None</p></td>
-<td><p>#999999</p></td>
-</tr>
-<tr>
-<td><p>10</p></td>
-<td><p>t</p></td>
-<td><p>0.00464</p></td>
-<td><p>40.933326</p></td>
-<td><p>10.797932</p></td>
-<td><p>(547125.3203099226,)</p></td>
-<td><p>(547125.3203099226, 40.933325979689144, 10.797...</p></td>
-<td><p>&lt;scipy.stats._distn_infrastructure.rv_continuo...</p></td>
-<td><p>0</p></td>
-<td><p>None</p></td>
-<td><p>#999999</p></td>
-</tr>
-</tbody>
-</table>
+|   | name | score | loc | scale | arg | params |
+|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| 0 | beta | 0.0028 | 25.0 | 36.11162 | (0.8025498392820567, 0.9178616649673106) | (0.8025498392820567, 0.9178616649673106, 24.99... |
+| 1 | uniform | 0.003086 | 25.0 | 36.0 | () | (25.0, 36.0) |
+| 2 | gamma | 0.003121 | 23.671861 | 8.266671 | (2.088083794086531,) | (2.088083794086531, 23.671860572721016, 8.2666... |
+| 3 | lognorm | 0.003483 | 16.360629 | 22.197751 | (0.4600824242349388,) | (0.4600824242349388, 16.360629455434452, 22.19... |
+| 4 | genextreme | 0.003782 | 35.824969 | 8.722759 | (0.0022036972929905738,) | (0.0022036972929905738, 35.82496922660661, 8.7... |
+| 5 | dweibull | 0.003907 | 39.071432 | 10.101049 | (1.4994902513440642,) | (1.4994902513440642, 39.07143209580082, 10.101... |
+| 6 | pareto | 0.00408 | -4294967271.0 | 4294967296.0 | (269558617.63340104,) | (269558617.63340104, -4294967271.0, 4294967295... |
+| 7 | expon | 0.00408 | 25.0 | 15.933333 | () | (25.0, 15.93333333333333) |
+| 8 | loggamma | 0.004597 | -2655.155819 | 380.373447 | (1197.9723285969549,) | (1197.9723285969549, -2655.1558188017243, 380.... |
+| 9 | norm | 0.00464 | 40.933333 | 10.797942 | () | (40.93333333333333, 10.797942190785962) |
+| 10 | t | 0.00464 | 40.933326 | 10.797932 | (547125.3203099226,) | (547125.3203099226, 40.933325979689144, 10.797... |
 
 </div>
+
+The table I show above is slightly abbreviated from what the function produces. I've reduced the number of columns to those that provide the key data for making the decision about the best fitting distribution. The score parameter that ranks the distributions uses in this case the RSS ("residual sum of squares") measure. `distfit` offers other minimization criteria that you will find in the documentation. The `loc` and `scale` columns are the mean and standard deviations for the variable. The `arg` and `params` columns are two ways of viewing the parameters that the distribution uses.
+
+For example, the beta distribution has two parameters, $\alpha$ and $\beta$ that define the shape of the curve. These are the arguments in the `arg` column. The `params` column also provides the mean and standard deviation. You can see these below in the parameters item of the following output.
 
 ```{python, eval = FALSE}
 Best fitting distribution (default settings): beta
 Parameters: (np.float64(0.8025498392820591), np.float64(0.9178616649673115), np.float64(24.999999999999996), np.float64(36.111620048509906))
 ```
 
-As you can see, I printed out the best fitting distribution and the parameters for that distribution. In this case, the best distribution was a beta distribution, not a normal distribution.
+### The "Best" Distribution
+
+Using RSS as its scoring criterion, `distfit` has chosen the beta distribution as the best. The normal distribution that we started with ended up near the end of the list, followed only by its fatter-tailed first cousin, the t-distribution. I can note for you that this search took 0.1 seconds and that using a search of all 68 distributions took only 4.5 seconds on my Macbook Air M1 computer. Very impressive speeds that replace hours of trying various combinations one-by-one. `distfit` does permit you to search on one distribution at a time, but there seems little point in doing that since you will surely always have the doubt that the correct best distribution was the next one that you did not get around to exploring.
+
+### Graphic Representation of the Model Result
+
+`distfit` also produces a graph of your result and shows the density of the beta distribution fit over a histogram of your data. It uses the `plot` method applied to your original `dist` object you created when you initiated `distfit`.
+
+```{python, eval = FALSE}
+dist.plot()
+```
+
+![](images/paste-1.png)
+
+While the aesthetics of the graph leave something to be desired, it provide the basic information that you require to understand how the beta distribution aligns with the data itself. What the beta distribution with these shape parameters does that the normal distribution did not do is to respect the reduced frequency of middle-aged participants.
+
+## Final Step – Create a Synthetic Age Variable
+
+Still in Python, we can generate a beta_age variable, with 30 values based on the shape parameters in the model.
+
+```{python, eval = FALSE}
+# values for the beta ages
+beta_age = dist.generate(30)
+beta_age
+
+array([56.47165781, 26.1968943 , 30.23741717, 25.73025078, 27.28333767,
+       44.46038604, 51.92738027, 49.2519154 , 53.32698704, 43.2538978 ,
+       59.69370779, 56.47277826, 43.64740812, 28.26559417, 57.10120666,
+       44.10916069, 32.04016565, 58.28303322, 58.85480846, 38.64909928,
+       25.28190799, 25.17327387, 28.87948644, 58.28830534, 48.82959254,
+       48.63264843, 52.77739289, 58.40751967, 54.4263961 , 35.94172602])
+```
+
+We can now return to R and use the beta parameters we discovered in `distfit` to create an age variable. We'll wrap this up by comparing this variable with a variable created via the normal distribution[^4] and the original `age_years` variable.
+
+[^4]: We remember that the parameters of the normal distribution are the mean and the standard deviation.
+
+```{r wrap_up, echo = FALSE}
+# beta age values from Python
+beta_age <- c(56.47165781, 26.1968943 , 30.23741717, 25.73025078, 27.28333767,
+       44.46038604, 51.92738027, 49.2519154 , 53.32698704, 43.2538978 ,
+       59.69370779, 56.47277826, 43.64740812, 28.26559417, 57.10120666,
+       44.10916069, 32.04016565, 58.28303322, 58.85480846, 38.64909928,
+       25.28190799, 25.17327387, 28.87948644, 58.28830534, 48.82959254,
+       48.63264843, 52.77739289, 58.40751967, 54.4263961 , 35.94172602)
+
+# create a tibble with the three sets of age values
+age_set <- tibble(age_cure1,
+                 norm_age = rnorm(30, mean = 40.93, sd = 10.98),
+                 beta_age )
+
+summarytools::descr(age_set, stats = "common")
+
+age_set |>
+pivot_longer(cols = everything(),
+             names_to = "dist", 
+             values_to = "value")|>
+group_by(dist) |>
+ggpubr::ggdensity(x = "value",
+            y = "density",
+            color = "dist",
+                  alpha = 0,
+            palette = "uchicago",
+            title = "Comparison of Density - Ages",
+            ylab = "Density",
+            xlab = "Age in Years",
+            legend = "bottom",
+            ggtheme = theme_bw())
+```
 
 ## Note on the Illustration at the Head of the Post
 
