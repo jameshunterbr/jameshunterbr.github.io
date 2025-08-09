@@ -416,7 +416,6 @@ A = 0.64476, p-value = 0.08372</code></pre>
 <section id="fit-the-data" class="level3">
 <h3 class="anchored" data-anchor-id="fit-the-data">Fit the Data</h3>
 <p>Now, you will instruct <code>distfit</code> to fit the data to the distributions by applying its key function, <code>fit_transform</code>. It prints out by default its fitting process in a fairly ugly table and you can suppress that by applying the parameter <code>verbose = 'off'</code>. This information will still be available by printing the “summary” subsection of the <code>results_age</code> object.</p>
-<p>One note ab</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">## fit the data</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>results_age <span class="op">=</span> dist.fit_transform(age, verbose <span class="op">=</span> <span class="st">'off'</span>)</span>
@@ -431,13 +430,13 @@ A = 0.64476, p-value = 0.08372</code></pre>
 <div>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 3%">
-<col style="width: 8%">
-<col style="width: 6%">
-<col style="width: 10%">
-<col style="width: 9%">
-<col style="width: 26%">
-<col style="width: 32%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -570,7 +569,51 @@ A = 0.64476, p-value = 0.08372</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dist.plot()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><img src="images/paste-1.png" class="img-fluid"></p>
+<p>While the aesthetics of the graph leave something to be desired, it provide the basic information that you require to understand how the beta distribution aligns with the data itself. What the beta distribution with these shape parameters does that the normal distribution did not do is to respect the reduced frequency of middle-aged participants.</p>
 </section>
+</section>
+<section id="final-step-create-a-synthetic-age-variable" class="level2">
+<h2 class="anchored" data-anchor-id="final-step-create-a-synthetic-age-variable">Final Step – Create a Synthetic Age Variable</h2>
+<p>Still in Python, we can generate a beta_age variable, with 30 values based on the shape parameters in the model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># values for the beta ages</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>beta_age <span class="op">=</span> dist.generate(<span class="dv">30</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>beta_age</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>array([<span class="fl">56.47165781</span>, <span class="fl">26.1968943</span> , <span class="fl">30.23741717</span>, <span class="fl">25.73025078</span>, <span class="fl">27.28333767</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>       <span class="fl">44.46038604</span>, <span class="fl">51.92738027</span>, <span class="fl">49.2519154</span> , <span class="fl">53.32698704</span>, <span class="fl">43.2538978</span> ,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>       <span class="fl">59.69370779</span>, <span class="fl">56.47277826</span>, <span class="fl">43.64740812</span>, <span class="fl">28.26559417</span>, <span class="fl">57.10120666</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>       <span class="fl">44.10916069</span>, <span class="fl">32.04016565</span>, <span class="fl">58.28303322</span>, <span class="fl">58.85480846</span>, <span class="fl">38.64909928</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>       <span class="fl">25.28190799</span>, <span class="fl">25.17327387</span>, <span class="fl">28.87948644</span>, <span class="fl">58.28830534</span>, <span class="fl">48.82959254</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>       <span class="fl">48.63264843</span>, <span class="fl">52.77739289</span>, <span class="fl">58.40751967</span>, <span class="fl">54.4263961</span> , <span class="fl">35.94172602</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can now return to R and use the beta parameters we discovered in <code>distfit</code> to create an age variable. We’ll wrap this up by comparing this variable with a variable created via the normal distribution<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> and the original <code>age_years</code> variable.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Descriptive Statistics  
+age_set  
+N: 30  
+
+                  age_cure1   beta_age   norm_age
+--------------- ----------- ---------- ----------
+           Mean       40.93      44.06      42.04
+        Std.Dev       10.98      12.47      13.03
+            Min       25.00      25.17      20.91
+         Median       39.00      46.55      39.69
+            Max       61.00      59.69      67.60
+        N.Valid       30.00      30.00      30.00
+              N       30.00      30.00      30.00
+      Pct.Valid      100.00     100.00     100.00</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/wrap_up-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="note-on-the-illustration-at-the-head-of-the-post" class="level2">
 <h2 class="anchored" data-anchor-id="note-on-the-illustration-at-the-head-of-the-post">Note on the Illustration at the Head of the Post</h2>
@@ -603,6 +646,7 @@ Venables, W. N., Brian D. Ripley, and W. N. Venables. 2002. <em>Modern Applied S
 <li id="fn1"><p>The examples here will generally be generated in the R statistical language as that is what I generally use. However, this post will contain Python code as well.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>A definitive summary of this trial is currently in the process of being published.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn3"><p><code>distfit</code> can also search out the correct parameters for modeling discrete (categorical) variables with the searching method set to “discrete”.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>We remember that the parameters of the normal distribution are the mean and the standard deviation.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{hunter2025,
   author = {Hunter, James},
