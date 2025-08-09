@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="James Hunter">
-<meta name="dcterms.date" content="2025-08-01">
+<meta name="dcterms.date" content="2025-08-10">
 <meta name="description" content="In which I explore various software techniques in R and Python for fitting statistical distributions to data">
 
 <title>Fitting Distributions – Methods, Virology &amp; More</title>
@@ -251,7 +251,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">August 1, 2025</p>
+        <p class="date">August 10, 2025</p>
       </div>
     </div>
     
@@ -588,23 +588,24 @@ A = 0.64476, p-value = 0.08372</code></pre>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>       <span class="fl">25.28190799</span>, <span class="fl">25.17327387</span>, <span class="fl">28.87948644</span>, <span class="fl">58.28830534</span>, <span class="fl">48.82959254</span>,</span>
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>       <span class="fl">48.63264843</span>, <span class="fl">52.77739289</span>, <span class="fl">58.40751967</span>, <span class="fl">54.4263961</span> , <span class="fl">35.94172602</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We can now return to R and use the beta parameters we discovered in <code>distfit</code> to create an age variable. We’ll wrap this up by comparing this variable with a variable created via the normal distribution<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> and the original <code>age_years</code> variable.</p>
+<p>We can now return to R and use the beta parameters we discovered in <code>distfit</code> to create an age variable. We can also apply the shape parameters <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> from <code>distfit</code> the <code>rbeta</code> function in R to generate values in R. However, R generates values for the beta distribution in the range of 0 to 1. We will need to adapt that range to the minimum and maximum values for <code>age_cure1</code> to mimic the age range in the original variable.</p>
+<p>We’ll wrap this up by comparing this variable with a variable created via the normal distribution<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> and the original <code>age_years</code> variable.</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>Descriptive Statistics  
 age_set  
 N: 30  
 
-                  age_cure1   beta_age   norm_age
---------------- ----------- ---------- ----------
-           Mean       40.93      44.06      42.04
-        Std.Dev       10.98      12.47      13.03
-            Min       25.00      25.17      20.91
-         Median       39.00      46.55      39.69
-            Max       61.00      59.69      67.60
-        N.Valid       30.00      30.00      30.00
-              N       30.00      30.00      30.00
-      Pct.Valid      100.00     100.00     100.00</code></pre>
+                  age_cure1   norm_age   py_beta_age   r_beta_age
+--------------- ----------- ---------- ------------- ------------
+           Mean       40.93      42.17         44.06        42.40
+        Std.Dev       10.98      10.83         12.47        12.14
+            Min       25.00      15.39         25.17        25.00
+         Median       39.00      43.47         46.55        39.88
+            Max       61.00      58.09         59.69        61.00
+        N.Valid       30.00      30.00         30.00        30.00
+              N       30.00      30.00         30.00        30.00
+      Pct.Valid      100.00     100.00        100.00       100.00</code></pre>
 </div>
 <div class="cell-output-display">
 <div>
@@ -651,12 +652,12 @@ Venables, W. N., Brian D. Ripley, and W. N. Venables. 2002. <em>Modern Applied S
 </section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{hunter2025,
   author = {Hunter, James},
   title = {Fitting {Distributions}},
-  date = {2025-08-01},
+  date = {2025-08-10},
   url = {https://jameshunterbr.github.io/posts/07-30-distribution-fitting/},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-hunter2025" class="csl-entry quarto-appendix-citeas" role="listitem">
-Hunter, James. 2025. <span>“Fitting Distributions.”</span> August 1,
+Hunter, James. 2025. <span>“Fitting Distributions.”</span> August 10,
 2025. <a href="https://jameshunterbr.github.io/posts/07-30-distribution-fitting/">https://jameshunterbr.github.io/posts/07-30-distribution-fitting/</a>.
 </div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

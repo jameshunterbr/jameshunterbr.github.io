@@ -6,7 +6,7 @@ author:
       url: https://jameshunterbr.github.io/
       orcid: 0000-0001-9524-0629
       affiliation: Laboratório de Retrovirologia, UNIFESP & CorpoRx, Inc.
-date: 2025-08-01
+date: 2025-08-10
 categories: [Quarto, R, Biostatistics]
 citation: 
     url: https://jameshunterbr.github.io/posts/07-30-distribution-fitting/
@@ -220,23 +220,36 @@ array([56.47165781, 26.1968943 , 30.23741717, 25.73025078, 27.28333767,
        48.63264843, 52.77739289, 58.40751967, 54.4263961 , 35.94172602])
 ```
 
-We can now return to R and use the beta parameters we discovered in `distfit` to create an age variable. We'll wrap this up by comparing this variable with a variable created via the normal distribution[^4] and the original `age_years` variable.
+We can now return to R and use the beta parameters we discovered in `distfit` to create an age variable. We can also apply the shape parameters $\alpha$ and $\beta$ from `distfit` the `rbeta` function in R to generate values in R. However, R generates values for the beta distribution in the range of 0 to 1. We will need to adapt that range to the minimum and maximum values for `age_cure1` to mimic the age range in the original variable.
+
+We'll wrap this up by comparing this variable with a variable created via the normal distribution[^4] and the original `age_years` variable.
 
 [^4]: We remember that the parameters of the normal distribution are the mean and the standard deviation.
 
 ```{r wrap_up, echo = FALSE}
-# beta age values from Python
-beta_age <- c(56.47165781, 26.1968943 , 30.23741717, 25.73025078, 27.28333767,
+# Python shape values
+alpha <- 0.8025
+beta <- 0.9179
+
+# beta age values from rbeta
+min_age <- 25
+max_age <- 61
+r_beta_age <- scales::rescale(rbeta(30, alpha, beta), to = c(min_age, max_age)) 
+
+# beta age values from distfit
+py_beta_age <- c(56.47165781, 26.1968943 , 30.23741717, 25.73025078, 27.28333767,
        44.46038604, 51.92738027, 49.2519154 , 53.32698704, 43.2538978 ,
        59.69370779, 56.47277826, 43.64740812, 28.26559417, 57.10120666,
        44.10916069, 32.04016565, 58.28303322, 58.85480846, 38.64909928,
        25.28190799, 25.17327387, 28.87948644, 58.28830534, 48.82959254,
        48.63264843, 52.77739289, 58.40751967, 54.4263961 , 35.94172602)
 
+
 # create a tibble with the three sets of age values
 age_set <- tibble(age_cure1,
                  norm_age = rnorm(30, mean = 40.93, sd = 10.98),
-                 beta_age )
+                 r_beta_age,
+                 py_beta_age)
 
 summarytools::descr(age_set, stats = "common")
 
@@ -253,9 +266,27 @@ ggpubr::ggdensity(x = "value",
             title = "Comparison of Density - Ages",
             ylab = "Density",
             xlab = "Age in Years",
-            legend = "bottom",
+            legend = "right",
             ggtheme = theme_bw())
 ```
+
+The graph may confuse more than illuminate our choice. We have three curves that do not clearly overlay the original data (in dark red). However, we can apply a well-known statistical test that is commonly used to compare distributions. The Kolmogorov-Smirnov test measures whether two vectors were drawn from the same distribution. The higher the p-value, the closer they are to having the same distribution. If they were less than a target value (like 0.05), that would indicate that the distributions were significantly different. Let's apply the test to compare the three sets of derived values to the original `age_cure1`.
+
+```{r, echo = FALSE}
+ks.test(age_set$age_cure1, age_set$norm_age)
+ks.test(age_set$age_cure1, age_set$py_beta_age)
+ks.test(age_set$age_cure1, age_set$r_beta_age)
+```
+
+The normal distribution and the values calculated within `distfit` are both reasonable. However, the beta distribution values calculated within R are the champions coming very close to an exact mirror of the original distribution. Intuitively, I would have chosen the same result. It is the only one that reflects the bimodal nature of the data with the decline that occurs in the middle age years as shown on the histogram for `distfit`.
+
+## Conclusion
+
+We can rarely mimic perfectly data taken from distributions. However, we can approximate new values that respect the original distribution and function similarly in statistical models. This becomes the definition of "good enough" for synthetic data.
+
+I mentioned at the beginning that the Cure 1 study only included men and this new study will include all genders. The analysis necessary to determine how this fact would modify this data generation I will leave aside as this post has become long enough and I wanted to focus on the process of distribution fitting.
+
+I welcome all relevant comments, reasonably politely put.
 
 ## Note on the Illustration at the Head of the Post
 
