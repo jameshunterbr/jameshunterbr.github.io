@@ -103,7 +103,252 @@ In both these tests, the age data does not appear to be normally, even for the m
 
 We can continue to test continuous distributions one-by-one and hope we find one that fits the pattern of our data. That's not very efficient and depends on our knowledge of the different distributions that we can use. The illustration at the top of this post shows the complexity of the search. R does have a package that help you find a distribution that best fits your data. It does have a package, `fitdistr`,[@delignette-muller2015] and a function within the modeling package `MASS`[@venables2002] that assist in defining the parameter values for a distribution you choose. But, help at the basic level of finding a function, no joy from R. This is quite frustrating. Even those with a long experience with statistics and different distributions will worry that they did not test enough different distributions to find the best fit.
 
-However, the Python language has a package, `distfit`, [@taskesen2025] that actually helps the data ~~grubber~~ scientist out.
+However, the Python language has a package, `distfit`, [@taskesen2025] that actually helps the data ~~grubber~~ scientist out. `distfit` has functions that can search among a set of 10 "popular" continuous distributions[^3], that is, those that are more frequently used. You can also search among the full set the author has programmed, a whopping 68 different distributions. Here, we will work with the popular set for convenience.
+
+[^3]: `distfit` can also search out the correct parameters for modeling discrete (categorical) variables with the searching method set to "discrete".
+
+|             |                                 |
+|-------------|---------------------------------|
+| Normal      | Generalized Extreme Value (GEV) |
+| Exponential | Gamma                           |
+| Pareto      | LogNormal                       |
+| Weibull     | Beta                            |
+| t           | Uniform                         |
+
+: "Popular" distfit Distributions
+
+`distfit` compares the data of a variable to each of the distributions it is searching among, estimates the parameters it should use to make this comparison (a major improvement over the `fitdistr` approach), checks the goodness-of-fit and assigns a score to each distribution based on the goodness-of-fit result and ranks the distributions from best (lowest score) to worst (highest). With the popular distributions, this entire process takes about a second.
+
+## Fitting `age_cure1` with `distfit`
+
+I will take you through the `distfit` process for `age_cure1`. R and Quarto, the software that is helping me with this blog, can easily handle blocks of programming in Python, but that will be the subject for a separate blog post on multilingual programming for biomedical data analysis. Here I will show the blocks of Python code and the results statically, as figures. I did the calculations using a Jupyter notebook in Positron, the new IDE that I am also using for the blog.
+
+### First Step – Open Python and `distfit`
+
+Obviously, you need a recent version of Python 3 (My version is 3.12.2). distfit makes use of functions from `numpy`, `pandas` and `matplotlib`, libraries (pythonese for packages) commonly used in data analysis. These steps assume you have previously set up the `age_years` variable in the `cure1` dataset.
+
+```{python, eval = FALSE}
+from distfit import distfit
+# import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+```
+
+### Set up the `distfit` Object
+
+The next step is to initialize a `distfit` object, which will contain the methods that the program will use to do the various calculations. There are a number of options you can choose at this point, including the number of bins for the histogram that the program will draw, and the method `distfit` should use to do its calculations. While this takes some reading of the manual for the program, usually the default "parametric" options will serve.
+
+```{python, eval = FALSE}
+## create distfit object for age
+age = cure1.age_years 
+dist = distfit(bins = 15)
+```
+
+### Fit the Data
+
+Now, you will instruct `distfit` to fit the data to the distributions by applying its key function, `fit_transform`. It prints out by default its fitting process in a fairly ugly table and you can suppress that by applying the parameter `verbose = 'off'`. This information will still be available by printing the results of the search as I will show below.
+
+```{python, eval = FALSE}
+## fit the data
+results_age = dist.fit_transform(age)
+results_age['model']
+
+# Print the best-fitting distribution
+print("Best fitting distribution (default settings):", dist.model["name"])
+
+# print the parameters for distribution
+print("Parameters:", dist.model["params"])
+```
+
+<div>
+
+```{=html}
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+```
+
+<table>
+<thead>
+<tr>
+<th><p></p></th>
+<th><p>name</p></th>
+<th><p>score</p></th>
+<th><p>loc</p></th>
+<th><p>scale</p></th>
+<th><p>arg</p></th>
+<th><p>params</p></th>
+<th><p>model</p></th>
+<th><p>bootstrap_score</p></th>
+<th><p>bootstrap_pass</p></th>
+<th><p>color</p></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><p>0</p></td>
+<td><p>beta</p></td>
+<td><p>0.0028</p></td>
+<td><p>25.0</p></td>
+<td><p>36.11162</p></td>
+<td><p>(0.8025498392820567, 0.9178616649673106)</p></td>
+<td><p>(0.8025498392820567, 0.9178616649673106, 24.99...</p></td>
+<td><p>&lt;scipy.stats._distn_infrastructure.rv_continuo...</p></td>
+<td><p>0</p></td>
+<td><p>None</p></td>
+<td><p>#e41a1c</p></td>
+</tr>
+<tr>
+<td><p>1</p></td>
+<td><p>uniform</p></td>
+<td><p>0.003086</p></td>
+<td><p>25.0</p></td>
+<td><p>36.0</p></td>
+<td><p>()</p></td>
+<td><p>(25.0, 36.0)</p></td>
+<td><p>&lt;scipy.stats._distn_infrastructure.rv_continuo...</p></td>
+<td><p>0</p></td>
+<td><p>None</p></td>
+<td><p>#e41a1c</p></td>
+</tr>
+<tr>
+<td><p>2</p></td>
+<td><p>gamma</p></td>
+<td><p>0.003121</p></td>
+<td><p>23.671861</p></td>
+<td><p>8.266671</p></td>
+<td><p>(2.088083794086531,)</p></td>
+<td><p>(2.088083794086531, 23.671860572721016, 8.2666...</p></td>
+<td><p>&lt;scipy.stats._distn_infrastructure.rv_continuo...</p></td>
+<td><p>0</p></td>
+<td><p>None</p></td>
+<td><p>#377eb8</p></td>
+</tr>
+<tr>
+<td><p>3</p></td>
+<td><p>lognorm</p></td>
+<td><p>0.003483</p></td>
+<td><p>16.360629</p></td>
+<td><p>22.197751</p></td>
+<td><p>(0.4600824242349388,)</p></td>
+<td><p>(0.4600824242349388, 16.360629455434452, 22.19...</p></td>
+<td><p>&lt;scipy.stats._distn_infrastructure.rv_continuo...</p></td>
+<td><p>0</p></td>
+<td><p>None</p></td>
+<td><p>#4daf4a</p></td>
+</tr>
+<tr>
+<td><p>4</p></td>
+<td><p>genextreme</p></td>
+<td><p>0.003782</p></td>
+<td><p>35.824969</p></td>
+<td><p>8.722759</p></td>
+<td><p>(0.0022036972929905738,)</p></td>
+<td><p>(0.0022036972929905738, 35.82496922660661, 8.7...</p></td>
+<td><p>&lt;scipy.stats._distn_infrastructure.rv_continuo...</p></td>
+<td><p>0</p></td>
+<td><p>None</p></td>
+<td><p>#984ea3</p></td>
+</tr>
+<tr>
+<td><p>5</p></td>
+<td><p>dweibull</p></td>
+<td><p>0.003907</p></td>
+<td><p>39.071432</p></td>
+<td><p>10.101049</p></td>
+<td><p>(1.4994902513440642,)</p></td>
+<td><p>(1.4994902513440642, 39.07143209580082, 10.101...</p></td>
+<td><p>&lt;scipy.stats._distn_infrastructure.rv_continuo...</p></td>
+<td><p>0</p></td>
+<td><p>None</p></td>
+<td><p>#ff7f00</p></td>
+</tr>
+<tr>
+<td><p>6</p></td>
+<td><p>pareto</p></td>
+<td><p>0.00408</p></td>
+<td><p>-4294967271.0</p></td>
+<td><p>4294967296.0</p></td>
+<td><p>(269558617.63340104,)</p></td>
+<td><p>(269558617.63340104, -4294967271.0, 4294967295...</p></td>
+<td><p>&lt;scipy.stats._distn_infrastructure.rv_continuo...</p></td>
+<td><p>0</p></td>
+<td><p>None</p></td>
+<td><p>#ffff33</p></td>
+</tr>
+<tr>
+<td><p>7</p></td>
+<td><p>expon</p></td>
+<td><p>0.00408</p></td>
+<td><p>25.0</p></td>
+<td><p>15.933333</p></td>
+<td><p>()</p></td>
+<td><p>(25.0, 15.93333333333333)</p></td>
+<td><p>&lt;scipy.stats._distn_infrastructure.rv_continuo...</p></td>
+<td><p>0</p></td>
+<td><p>None</p></td>
+<td><p>#a65628</p></td>
+</tr>
+<tr>
+<td><p>8</p></td>
+<td><p>loggamma</p></td>
+<td><p>0.004597</p></td>
+<td><p>-2655.155819</p></td>
+<td><p>380.373447</p></td>
+<td><p>(1197.9723285969549,)</p></td>
+<td><p>(1197.9723285969549, -2655.1558188017243, 380....</p></td>
+<td><p>&lt;scipy.stats._distn_infrastructure.rv_continuo...</p></td>
+<td><p>0</p></td>
+<td><p>None</p></td>
+<td><p>#f781bf</p></td>
+</tr>
+<tr>
+<td><p>9</p></td>
+<td><p>norm</p></td>
+<td><p>0.00464</p></td>
+<td><p>40.933333</p></td>
+<td><p>10.797942</p></td>
+<td><p>()</p></td>
+<td><p>(40.93333333333333, 10.797942190785962)</p></td>
+<td><p>&lt;scipy.stats._distn_infrastructure.rv_continuo...</p></td>
+<td><p>0</p></td>
+<td><p>None</p></td>
+<td><p>#999999</p></td>
+</tr>
+<tr>
+<td><p>10</p></td>
+<td><p>t</p></td>
+<td><p>0.00464</p></td>
+<td><p>40.933326</p></td>
+<td><p>10.797932</p></td>
+<td><p>(547125.3203099226,)</p></td>
+<td><p>(547125.3203099226, 40.933325979689144, 10.797...</p></td>
+<td><p>&lt;scipy.stats._distn_infrastructure.rv_continuo...</p></td>
+<td><p>0</p></td>
+<td><p>None</p></td>
+<td><p>#999999</p></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+```{python, eval = FALSE}
+Best fitting distribution (default settings): beta
+Parameters: (np.float64(0.8025498392820591), np.float64(0.9178616649673115), np.float64(24.999999999999996), np.float64(36.111620048509906))
+```
+
+As you can see, I printed out the best fitting distribution and the parameters for that distribution. In this case, the best distribution was a beta distribution, not a normal distribution.
 
 ## Note on the Illustration at the Head of the Post
 

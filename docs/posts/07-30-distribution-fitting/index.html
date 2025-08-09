@@ -97,7 +97,7 @@ div.csl-indent {
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-d59dcd9daf46338dfcd316d2e4717ebd.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-c9cb8d667240c375c534b43af857d2b4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-cbc325fe35960910060a227237f6362b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -303,7 +303,7 @@ N: 30
 </section>
 <section id="distribution-of-the-age_years-variable" class="level2">
 <h2 class="anchored" data-anchor-id="distribution-of-the-age_years-variable">Distribution of the <code>age_years</code> Variable</h2>
-<p>As usually occurs, the density curve tells one story: the data appears sort of normally distributed with one peak. This idea is supported by the proximity of the mean and median in the table of summary values. However, the histogram suggests another story: that there may be a second peak, making the data bimodal and not likely normal.</p>
+<p>As usually occurs, the density curve tells one story: the data appears sort of normally distributed with one peak. This idea is supported by the proximity of the mean and median in the table of summary values. However, the histogram suggests another story: that there may be a second peak, making the data bimodal and not likely normal (like most real-world data<span class="citation" data-cites="downey2013">(<a href="#ref-downey2013" role="doc-biblioref">Downey 2013</a>)</span>).</p>
 <section id="testing-our-intuition-about-normality" class="level3">
 <h3 class="anchored" data-anchor-id="testing-our-intuition-about-normality">Testing Our Intuition about Normality</h3>
 <p>So a reasonable intuitive first guess about the type of data in the age variable is to treat it as normal. This is very attractive because we can create new cases using the probability density function of the normal curve using the mean and standard deviation.</p>
@@ -333,7 +333,781 @@ A = 0.64476, p-value = 0.08372</code></pre>
 </section>
 <section id="now-what" class="level2">
 <h2 class="anchored" data-anchor-id="now-what">Now, what?</h2>
-<p>We can continue to test continuous distributions and hope we find one that fits the pattern of our data. That’s not very efficient and depends on our</p>
+<p>We can continue to test continuous distributions one-by-one and hope we find one that fits the pattern of our data. That’s not very efficient and depends on our knowledge of the different distributions that we can use. The illustration at the top of this post shows the complexity of the search. R does have a package that help you find a distribution that best fits your data. It does have a package, <code>fitdistr</code>,<span class="citation" data-cites="delignette-muller2015">(<a href="#ref-delignette-muller2015" role="doc-biblioref">Delignette-Muller and Dutang 2015</a>)</span> and a function within the modeling package <code>MASS</code><span class="citation" data-cites="venables2002">(<a href="#ref-venables2002" role="doc-biblioref">Venables, Ripley, and Venables 2002</a>)</span> that assist in defining the parameter values for a distribution you choose. But, help at the basic level of finding a function, no joy from R. This is quite frustrating. Even those with a long experience with statistics and different distributions will worry that they did not test enough different distributions to find the best fit.</p>
+<p>However, the Python language has a package, <code>distfit</code>, <span class="citation" data-cites="taskesen2025">(<a href="#ref-taskesen2025" role="doc-biblioref">Taskesen 2025</a>)</span> that actually helps the data <del>grubber</del> scientist out. <code>distfit</code> has functions that can search among a set of 10 “popular” continuous distributions<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>, that is, those that are more frequently used. You can also search among the full set the author has programmed, a whopping 68 different distributions. Here, we will work with the popular set for convenience.</p>
+<table class="caption-top table">
+<caption>“Popular” distfit Distributions</caption>
+<tbody>
+<tr class="odd">
+<td>Normal</td>
+<td>Generalized Extreme Value (GEV)</td>
+</tr>
+<tr class="even">
+<td>Exponential</td>
+<td>Gamma</td>
+</tr>
+<tr class="odd">
+<td>Pareto</td>
+<td>LogNormal</td>
+</tr>
+<tr class="even">
+<td>Weibull</td>
+<td>Beta</td>
+</tr>
+<tr class="odd">
+<td>t</td>
+<td>Uniform</td>
+</tr>
+</tbody>
+</table>
+<p><code>distfit</code> compares the data of a variable to each of the distributions it is searching among, estimates the parameters it should use to make this comparison (a major improvement over the <code>fitdistr</code> approach), checks the goodness-of-fit and assigns a score to each distribution based on the goodness-of-fit result and ranks the distributions from best (lowest score) to worst (highest). With the popular distributions, this entire process takes about a second.</p>
+</section>
+<section id="fitting-age_cure1-with-distfit" class="level2">
+<h2 class="anchored" data-anchor-id="fitting-age_cure1-with-distfit">Fitting <code>age_cure1</code> with <code>distfit</code></h2>
+<p>I will take you through the <code>distfit</code> process for <code>age_cure1</code>. R and Quarto, the software that is helping me with this blog, can easily handle blocks of programming in Python, but that will be the subject for a separate blog post on multilingual programming for biomedical data analysis. Here I will show the blocks of Python code and the results statically, as figures. I did the calculations using a Jupyter notebook in Positron, the new IDE that I am also using for the blog.</p>
+<section id="first-step-open-python-and-distfit" class="level3">
+<h3 class="anchored" data-anchor-id="first-step-open-python-and-distfit">First Step – Open Python and <code>distfit</code></h3>
+<p>Obviously, you need a recent version of Python 3 (My version is 3.12.2). distfit makes use of functions from <code>numpy</code>, <code>pandas</code> and <code>matplotlib</code>, libraries (pythonese for packages) commonly used in data analysis. These steps assume you have previously set up the <code>age_years</code> variable in the <code>cure1</code> dataset.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> distfit <span class="im">import</span> distfit</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># import numpy as np</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="set-up-the-distfit-object" class="level3">
+<h3 class="anchored" data-anchor-id="set-up-the-distfit-object">Set up the <code>distfit</code> Object</h3>
+<p>The next step is to initialize a <code>distfit</code> object, which will contain the methods that the program will use to do the various calculations. There are a number of options you can choose at this point, including the number of bins for the histogram that the program will draw, and the method <code>distfit</code> should use to do its calculations. While this takes some reading of the manual for the program, usually the default “parametric” options will serve.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">## create distfit object for age</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>age <span class="op">=</span> cure1.age_years </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> distfit(bins <span class="op">=</span> <span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="fit-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="fit-the-data">Fit the Data</h3>
+<p>Now, you will instruct <code>distfit</code> to fit the data to the distributions by applying its key function, <code>fit_transform</code>. It prints out by default its fitting process in a fairly ugly table and you can suppress that by applying the parameter <code>verbose = 'off'</code>. This information will still be available by printing the results of the search as I will show below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">## fit the data</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>results_age <span class="op">=</span> dist.fit_transform(age)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>results_age[<span class="st">'model'</span>]</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the best-fitting distribution</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Best fitting distribution (default settings):"</span>, dist.model[<span class="st">"name"</span>])</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># print the parameters for distribution</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Parameters:"</span>, dist.model[<span class="st">"params"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table>
+<thead>
+<tr>
+<th>
+<p>
+</p>
+</th>
+<th>
+<p>
+name
+</p>
+</th>
+<th>
+<p>
+score
+</p>
+</th>
+<th>
+<p>
+loc
+</p>
+</th>
+<th>
+<p>
+scale
+</p>
+</th>
+<th>
+<p>
+arg
+</p>
+</th>
+<th>
+<p>
+params
+</p>
+</th>
+<th>
+<p>
+model
+</p>
+</th>
+<th>
+<p>
+bootstrap_score
+</p>
+</th>
+<th>
+<p>
+bootstrap_pass
+</p>
+</th>
+<th>
+<p>
+color
+</p>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<p>
+0
+</p>
+</td>
+<td>
+<p>
+beta
+</p>
+</td>
+<td>
+<p>
+0.0028
+</p>
+</td>
+<td>
+<p>
+25.0
+</p>
+</td>
+<td>
+<p>
+36.11162
+</p>
+</td>
+<td>
+<p>
+(0.8025498392820567, 0.9178616649673106)
+</p>
+</td>
+<td>
+<p>
+(0.8025498392820567, 0.9178616649673106, 24.99…
+</p>
+</td>
+<td>
+<p>
+&lt;scipy.stats._distn_infrastructure.rv_continuo…
+</p>
+</td>
+<td>
+<p>
+0
+</p>
+</td>
+<td>
+<p>
+None
+</p>
+</td>
+<td>
+<p>
+#e41a1c
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>
+1
+</p>
+</td>
+<td>
+<p>
+uniform
+</p>
+</td>
+<td>
+<p>
+0.003086
+</p>
+</td>
+<td>
+<p>
+25.0
+</p>
+</td>
+<td>
+<p>
+36.0
+</p>
+</td>
+<td>
+<p>
+()
+</p>
+</td>
+<td>
+<p>
+(25.0, 36.0)
+</p>
+</td>
+<td>
+<p>
+&lt;scipy.stats._distn_infrastructure.rv_continuo…
+</p>
+</td>
+<td>
+<p>
+0
+</p>
+</td>
+<td>
+<p>
+None
+</p>
+</td>
+<td>
+<p>
+#e41a1c
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>
+2
+</p>
+</td>
+<td>
+<p>
+gamma
+</p>
+</td>
+<td>
+<p>
+0.003121
+</p>
+</td>
+<td>
+<p>
+23.671861
+</p>
+</td>
+<td>
+<p>
+8.266671
+</p>
+</td>
+<td>
+<p>
+(2.088083794086531,)
+</p>
+</td>
+<td>
+<p>
+(2.088083794086531, 23.671860572721016, 8.2666…
+</p>
+</td>
+<td>
+<p>
+&lt;scipy.stats._distn_infrastructure.rv_continuo…
+</p>
+</td>
+<td>
+<p>
+0
+</p>
+</td>
+<td>
+<p>
+None
+</p>
+</td>
+<td>
+<p>
+#377eb8
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>
+3
+</p>
+</td>
+<td>
+<p>
+lognorm
+</p>
+</td>
+<td>
+<p>
+0.003483
+</p>
+</td>
+<td>
+<p>
+16.360629
+</p>
+</td>
+<td>
+<p>
+22.197751
+</p>
+</td>
+<td>
+<p>
+(0.4600824242349388,)
+</p>
+</td>
+<td>
+<p>
+(0.4600824242349388, 16.360629455434452, 22.19…
+</p>
+</td>
+<td>
+<p>
+&lt;scipy.stats._distn_infrastructure.rv_continuo…
+</p>
+</td>
+<td>
+<p>
+0
+</p>
+</td>
+<td>
+<p>
+None
+</p>
+</td>
+<td>
+<p>
+#4daf4a
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>
+4
+</p>
+</td>
+<td>
+<p>
+genextreme
+</p>
+</td>
+<td>
+<p>
+0.003782
+</p>
+</td>
+<td>
+<p>
+35.824969
+</p>
+</td>
+<td>
+<p>
+8.722759
+</p>
+</td>
+<td>
+<p>
+(0.0022036972929905738,)
+</p>
+</td>
+<td>
+<p>
+(0.0022036972929905738, 35.82496922660661, 8.7…
+</p>
+</td>
+<td>
+<p>
+&lt;scipy.stats._distn_infrastructure.rv_continuo…
+</p>
+</td>
+<td>
+<p>
+0
+</p>
+</td>
+<td>
+<p>
+None
+</p>
+</td>
+<td>
+<p>
+#984ea3
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>
+5
+</p>
+</td>
+<td>
+<p>
+dweibull
+</p>
+</td>
+<td>
+<p>
+0.003907
+</p>
+</td>
+<td>
+<p>
+39.071432
+</p>
+</td>
+<td>
+<p>
+10.101049
+</p>
+</td>
+<td>
+<p>
+(1.4994902513440642,)
+</p>
+</td>
+<td>
+<p>
+(1.4994902513440642, 39.07143209580082, 10.101…
+</p>
+</td>
+<td>
+<p>
+&lt;scipy.stats._distn_infrastructure.rv_continuo…
+</p>
+</td>
+<td>
+<p>
+0
+</p>
+</td>
+<td>
+<p>
+None
+</p>
+</td>
+<td>
+<p>
+#ff7f00
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>
+6
+</p>
+</td>
+<td>
+<p>
+pareto
+</p>
+</td>
+<td>
+<p>
+0.00408
+</p>
+</td>
+<td>
+<p>
+-4294967271.0
+</p>
+</td>
+<td>
+<p>
+4294967296.0
+</p>
+</td>
+<td>
+<p>
+(269558617.63340104,)
+</p>
+</td>
+<td>
+<p>
+(269558617.63340104, -4294967271.0, 4294967295…
+</p>
+</td>
+<td>
+<p>
+&lt;scipy.stats._distn_infrastructure.rv_continuo…
+</p>
+</td>
+<td>
+<p>
+0
+</p>
+</td>
+<td>
+<p>
+None
+</p>
+</td>
+<td>
+<p>
+#ffff33
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>
+7
+</p>
+</td>
+<td>
+<p>
+expon
+</p>
+</td>
+<td>
+<p>
+0.00408
+</p>
+</td>
+<td>
+<p>
+25.0
+</p>
+</td>
+<td>
+<p>
+15.933333
+</p>
+</td>
+<td>
+<p>
+()
+</p>
+</td>
+<td>
+<p>
+(25.0, 15.93333333333333)
+</p>
+</td>
+<td>
+<p>
+&lt;scipy.stats._distn_infrastructure.rv_continuo…
+</p>
+</td>
+<td>
+<p>
+0
+</p>
+</td>
+<td>
+<p>
+None
+</p>
+</td>
+<td>
+<p>
+#a65628
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>
+8
+</p>
+</td>
+<td>
+<p>
+loggamma
+</p>
+</td>
+<td>
+<p>
+0.004597
+</p>
+</td>
+<td>
+<p>
+-2655.155819
+</p>
+</td>
+<td>
+<p>
+380.373447
+</p>
+</td>
+<td>
+<p>
+(1197.9723285969549,)
+</p>
+</td>
+<td>
+<p>
+(1197.9723285969549, -2655.1558188017243, 380….
+</p>
+</td>
+<td>
+<p>
+&lt;scipy.stats._distn_infrastructure.rv_continuo…
+</p>
+</td>
+<td>
+<p>
+0
+</p>
+</td>
+<td>
+<p>
+None
+</p>
+</td>
+<td>
+<p>
+#f781bf
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>
+9
+</p>
+</td>
+<td>
+<p>
+norm
+</p>
+</td>
+<td>
+<p>
+0.00464
+</p>
+</td>
+<td>
+<p>
+40.933333
+</p>
+</td>
+<td>
+<p>
+10.797942
+</p>
+</td>
+<td>
+<p>
+()
+</p>
+</td>
+<td>
+<p>
+(40.93333333333333, 10.797942190785962)
+</p>
+</td>
+<td>
+<p>
+&lt;scipy.stats._distn_infrastructure.rv_continuo…
+</p>
+</td>
+<td>
+<p>
+0
+</p>
+</td>
+<td>
+<p>
+None
+</p>
+</td>
+<td>
+<p>
+#999999
+</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>
+10
+</p>
+</td>
+<td>
+<p>
+t
+</p>
+</td>
+<td>
+<p>
+0.00464
+</p>
+</td>
+<td>
+<p>
+40.933326
+</p>
+</td>
+<td>
+<p>
+10.797932
+</p>
+</td>
+<td>
+<p>
+(547125.3203099226,)
+</p>
+</td>
+<td>
+<p>
+(547125.3203099226, 40.933325979689144, 10.797…
+</p>
+</td>
+<td>
+<p>
+&lt;scipy.stats._distn_infrastructure.rv_continuo…
+</p>
+</td>
+<td>
+<p>
+0
+</p>
+</td>
+<td>
+<p>
+None
+</p>
+</td>
+<td>
+<p>
+#999999
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>Best fitting distribution (default settings): beta</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>Parameters: (np.float64(<span class="fl">0.8025498392820591</span>), np.float64(<span class="fl">0.9178616649673115</span>), np.float64(<span class="fl">24.999999999999996</span>), np.float64(<span class="fl">36.111620048509906</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As you can see, I printed out the best fitting distribution and the parameters for that distribution. In this case, the best distribution was a beta distribution, not a normal distribution.</p>
+</section>
 </section>
 <section id="note-on-the-illustration-at-the-head-of-the-post" class="level2">
 <h2 class="anchored" data-anchor-id="note-on-the-illustration-at-the-head-of-the-post">Note on the Illustration at the Head of the Post</h2>
@@ -345,14 +1119,27 @@ A = 0.64476, p-value = 0.08372</code></pre>
 
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-delignette-muller2015" class="csl-entry" role="listitem">
+Delignette-Muller, Marie Laure, and Christophe Dutang. 2015. <span>“<span><strong>Fitdistrplus</strong></span> : An <span><em>R</em></span> Package for Fitting Distributions.”</span> <em>Journal of Statistical Software</em> 64 (4). <a href="https://doi.org/10.18637/jss.v064.i04">https://doi.org/10.18637/jss.v064.i04</a>.
+</div>
+<div id="ref-downey2013" class="csl-entry" role="listitem">
+Downey, Allen. 2013. <span>“Are Your Data Normal? Hint: No.”</span> <a href="https://allendowney.blogspot.com/2013/08/are-my-data-normal.html">https://allendowney.blogspot.com/2013/08/are-my-data-normal.html</a>.
+</div>
 <div id="ref-leemis2008" class="csl-entry" role="listitem">
 Leemis, Lawrence M, and Jacquelyn T McQueston. 2008. <span>“Univariate Distribution Relationships.”</span> <em>The American Statistician</em> 62 (1): 45–53. <a href="https://doi.org/10.1198/000313008X270448">https://doi.org/10.1198/000313008X270448</a>.
+</div>
+<div id="ref-taskesen2025" class="csl-entry" role="listitem">
+Taskesen, Erdogan. 2025. <em>Distfit Is a Python Library for Probability Density Fitting.</em> Zenodo. <a href="https://zenodo.org/doi/10.5281/zenodo.15712917">https://zenodo.org/doi/10.5281/zenodo.15712917</a>.
+</div>
+<div id="ref-venables2002" class="csl-entry" role="listitem">
+Venables, W. N., Brian D. Ripley, and W. N. Venables. 2002. <em>Modern Applied Statistics with s</em>. 4th ed. Statistics and Computing. New York: Springer.
 </div>
 </div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
 <li id="fn1"><p>The examples here will generally be generated in the R statistical language as that is what I generally use. However, this post will contain Python code as well.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>A definitive summary of this trial is currently in the process of being published.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p><code>distfit</code> can also search out the correct parameters for modeling discrete (categorical) variables with the searching method set to “discrete”.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{hunter2025,
   author = {Hunter, James},
