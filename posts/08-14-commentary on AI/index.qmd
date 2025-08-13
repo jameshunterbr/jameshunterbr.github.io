@@ -11,7 +11,7 @@ categories: [Quarto, R, Virology]
 citation: 
     url: https://jameshunterbr.github.io/posts/25-07-24_first_post/
 image: jrh logo.png
-draft: false
+draft: true
 ---
 
 It has been a while since I last blogged. Even at this advanced age, I changed careers 10 years ago and now apply myself to virology and medical science. I have finally finished my long-held goal of completing a doctorate. Now, I conduct research on HIV and other viral diseases as well as teach biomedical and other students at the Federal University of São Paulo statistics and programming.
