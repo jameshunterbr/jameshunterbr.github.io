@@ -9,7 +9,6 @@ website:
     right:
       - href: index.qmd
         text: Home
-      - about.qmd
       - posts.qmd # listing page for blog
       - href: resume_may_25_en.pdf
         text: CV
