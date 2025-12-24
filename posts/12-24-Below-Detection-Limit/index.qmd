@@ -7,7 +7,7 @@ author:
       orcid: 0000-0001-9524-0629
       affiliation: Laboratório de Retrovirologia, UNIFESP & CorpoRx, Inc.
 date: 2025-12-24
-categories: [Quarto, R, Virology]
+categories: [Biostatistics, R, Virology]
 citation: 
     url: https://jameshunterbr.github.io/posts/12-24-Below-Detection-Limit/
 image: jrh logo.png
